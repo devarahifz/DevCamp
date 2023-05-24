@@ -1,0 +1,30 @@
+import { createSlice } from '@reduxjs/toolkit'
+import { fetchUser } from '../reducers/user_reducer'
+
+const UserSlicer = createSlice({
+  name: 'user',
+  initialState: {
+    user: [],
+    isLoading: false,
+    isSuccess: false,
+    isError: null,
+  },
+  extraReducers(builder) {
+    builder.addCase(fetchUser.pending, (state) => {
+      state.isLoading = true
+      state.isError = null
+      state.isSuccess = false
+    })
+    builder.addCase(fetchUser.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.isSuccess = true
+      state.user = action.payload
+    })
+    builder.addCase(fetchUser.rejected, (state, action) => {
+      state.isLoading = false
+      state.isError = action.error.message
+    })
+  }
+})
+
+export default UserSlicer.reducer

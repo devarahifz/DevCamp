@@ -1,0 +1,6 @@
+.background {
+  background: url(../../assets/images/background.png) center;
+  height: 483px;
+  object-fit: cover;
+  object-position: center;
+}
