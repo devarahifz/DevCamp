@@ -5,6 +5,7 @@ import { asyncSetAuthentication } from '../../reducers/auth_action'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { directus, url } from '../../configs/public_url'
+import { login } from '../../reducers/user_reducer'
 
 const LoginPage = () => {
   const card = {
@@ -24,11 +25,10 @@ const LoginPage = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirm] = useState('')
+  const [kata_sandi, setKata_sandi] = useState('')
+  const [confirm_kata_sandi, setConfirm] = useState('')
   const [dataUser, setDataUser] = useState('')
   const [isValid, setIsValid] = useState(true)
-  const { auth } = useSelector((state) => state.auth)
 
   const handleChange = (e, set, error, message) => {
     let value
@@ -48,18 +48,18 @@ const LoginPage = () => {
   }
 
   let [errorEmail, setErrorEmail] = useState('')
-  let [errorPassword, setErrorPassword] = useState('')
+  let [errorKata_sandi, setErrorKata_sandi] = useState('')
   let [errorConfirm, setErrorConfirm] = useState('')
 
   const handleError = (data) => {
     const checkEmail = dataUser.data.filter(
       (item) => item.email === data.email
     )
-    const checkPassword = dataUser.data.filter(
-      (item) => item.password === data.password
+    const checkKata_sandi = dataUser.data.filter(
+      (item) => item.kata_sandi === data.kata_sandi
     )
     const checkConfirm = dataUser.data.filter(
-      (item) => item.confirmPassword === data.confirmPassword
+      (item) => item.confirm_kata_sandi === data.confirm_kata_sandi
     )
 
     if (data.email === '') {
@@ -73,18 +73,18 @@ const LoginPage = () => {
       setIsValid(true)
     }
 
-    if (data.password === '') {
-      setErrorPassword('Please enter your password')
+    if (data.kata_sandi === '') {
+      setErrorKata_sandi('Please enter your password')
       setIsValid(false)
-    } else if (checkPassword.length === 0) {
-      setErrorPassword('Password is incorrect')
+    } else if (checkKata_sandi.length === 0) {
+      setErrorKata_sandi('Password is incorrect')
       setIsValid(false)
     } else {
-      setErrorPassword('')
+      setErrorKata_sandi('')
       setIsValid(true)
     }
 
-    if (data.confirmPassword === '') {
+    if (data.confirm_kata_sandi === '') {
       setErrorConfirm('Please enter your confirm password')
       setIsValid(false)
     } else if (checkConfirm.length === 0) {
@@ -101,8 +101,8 @@ const LoginPage = () => {
     e.preventDefault()
     let payload = {
       email: email,
-      password: password,
-      confirmPassword: confirmPassword,
+      kata_sandi: kata_sandi,
+      confirm_kata_sandi: confirm_kata_sandi,
     }
 
     handleError(payload)
@@ -116,7 +116,7 @@ const LoginPage = () => {
       return
     }
 
-    dispatch(asyncSetAuthentication({ email, password, confirmPassword}))
+    dispatch(asyncSetAuthentication({ email, kata_sandi, confirm_kata_sandi}))
     const timeout = setTimeout(() => {
       navigate('/peserta/dashboard')
     }, 2000)
@@ -168,25 +168,20 @@ const LoginPage = () => {
     }
   }
 
-  useEffect(() => {
-    fetch(`${url}/items/user`)
-      .then((res) => res.json())
-      .then((resJson) => {
-        setDataUser(resJson)
-      })
-      .catch((err) => console.log(err))
-  }, [])
+  const onLogin = async (e) => {
+    e.preventDefault()
+    const data = await dispatch(login({ email, kata_sandi }))
 
-  useEffect(() => {
-    localStorage.setItem('datas', JSON.stringify(items))
-  }, [items])
-
-  useEffect(() => {
-    const token = localStorage.getItem('accessToken')
-    if (token !== null) {
+    if (data.payload.verify === true) {
+      localStorage.setItem('token', data.payload.token)
+      localStorage.setItem('idUser', data.payload.id)
+      localStorage.setItem('email', email)
       navigate('/peserta/dashboard')
+      console.log(data)
+    } else {
+      alert('Email atau password salah')
     }
-  }, [])
+  }
 
   return (
     <>
@@ -195,7 +190,7 @@ const LoginPage = () => {
           <Container style={{width: '50%', marginTop: '25%'}}>
             <h1>Selamat Datang</h1>
             <p style={{color: '#64748B'}}>Silahkan login menggunakan email yang terdaftar</p>
-            <Form onSubmit={handleLogin}>
+            <Form onSubmit={onLogin}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email</Form.Label>
                 <Form.Control 
@@ -213,9 +208,9 @@ const LoginPage = () => {
                 <Form.Control 
                   type="password"
                   name="password"
-                  value={password}
-                  onChange={(e) => handleChange(e, setPassword, setErrorPassword, 'password')}
-                  errorMessage={errorPassword}
+                  value={kata_sandi}
+                  onChange={(e) => handleChange(e, setKata_sandi, setErrorKata_sandi, 'kata sandi')}
+                  errorMessage={errorKata_sandi}
                   placeholder="Masukkan password" 
                 />
               </Form.Group>
@@ -225,8 +220,8 @@ const LoginPage = () => {
                 <Form.Control 
                   type="password"
                   name="confirma_password"
-                  value={confirmPassword}
-                  onChange={(e) => handleChange(e, setConfirm, setErrorConfirm, 'confirm password')}
+                  value={confirm_kata_sandi}
+                  onChange={(e) => handleChange(e, setConfirm, setErrorConfirm, 'confirm kata sandi')}
                   errorMessage={errorConfirm}
                   placeholder="Masukkan password" 
                 />

@@ -1,11 +1,35 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import NavbarDashboard from '../header/NavbarDashboard'
 import SideBar from '../sidebar/SideBar'
 import SideNavbar from '../sidebar/SideNavbar'
 import { Outlet } from 'react-router-dom'
 import { Container } from '@mui/material'
+import { directus } from '../../configs/public_url'
 
 const Layout = () => {
+  const token = localStorage.getItem('token')
+  const email = localStorage.getItem('email')
+  useEffect(() => {
+    
+    (async () => {
+      const data = await directus.items('user').readByQuery({
+        fields: ['email', 'token'],
+        filter: {
+          email: {
+            _eq: email
+          },
+          token: {
+            _eq: token
+          }
+        }
+      })
+      
+      if (data.data.length === 0) {
+        window.location.href = '/'
+      }
+    })()
+
+  }, [])
   return (
     <>
       <NavbarDashboard />

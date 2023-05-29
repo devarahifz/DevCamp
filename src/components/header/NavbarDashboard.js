@@ -5,7 +5,7 @@ import logo from '../../assets/images/devcamp-2.png'
 import { Avatar, Box, Popper, Fade, Divider } from '@mui/material';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { fetchUser } from '../../reducers/user_reducer';
+import { getUserById } from '../../reducers/user_reducer';
 import { useDispatch, useSelector } from 'react-redux';
 
 function NavbarDashboard() {
@@ -35,15 +35,25 @@ function NavbarDashboard() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const { user } = useSelector((state) => state.user)
     const dispatch = useDispatch()
+    const idUser = localStorage.getItem('idUser')
 
     useEffect(() => {
-        dispatch(fetchUser())
+        (async () => {
+            await dispatch(getUserById(idUser))
+        })()
+        // dispatch(getUserById(idUser))
     }, [])
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
         setOpen((previousOpen) => !previousOpen);
     };
+
+    const handleLogout = () => {
+        localStorage.removeItem('token')
+        localStorage.removeItem('email')
+        window.location.href = '/'
+    }
 
     const canBeOpen = open && Boolean(anchorEl);
     const id = canBeOpen ? 'transition-popper' : undefined;
@@ -90,14 +100,14 @@ function NavbarDashboard() {
                                     width: 330,
                                 }}
                             >
-                                {user.map((user, index) => (
+                                {/* {user.map((user, index) => ( */}
 
-                                    <p style={{margin: 0}}><b>Selamat Datang</b>, {user.nama_lengkap}</p>
-                                ))}
+                                    <p style={{margin: 0}}><b>Selamat Datang</b>, {user?.nama_lengkap}</p>
+                                {/* ))} */}
                                 <p style={{color: 'grey', fontSize: '12px'}}>Peserta</p>
                                 <Divider variant="middle" />
                                 <Button variant='outline-warning' style={{width: '100%', textAlign: 'left', border: 'none', marginBottom: 15}}><SettingsOutlinedIcon /> Account Settings</Button>
-                                <Button href='/' variant='outline-danger' style={{width: '100%', textAlign: 'left', border: 'none', marginBottom: 15}}><LogoutIcon /> Logout</Button>
+                                <Button onClick={handleLogout} variant='outline-danger' style={{width: '100%', textAlign: 'left', border: 'none', marginBottom: 15}}><LogoutIcon /> Logout</Button>
                             </Box>
                         </Fade>
                         )}
