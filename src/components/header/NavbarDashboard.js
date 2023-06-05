@@ -41,7 +41,6 @@ function NavbarDashboard() {
         (async () => {
             await dispatch(getUserById(idUser))
         })()
-        // dispatch(getUserById(idUser))
     }, [])
 
     const handleClick = (event) => {
@@ -52,6 +51,7 @@ function NavbarDashboard() {
     const handleLogout = () => {
         localStorage.removeItem('token')
         localStorage.removeItem('email')
+        localStorage.removeItem('idUser')
         window.location.href = '/'
     }
 
@@ -100,13 +100,10 @@ function NavbarDashboard() {
                                     width: 330,
                                 }}
                             >
-                                {/* {user.map((user, index) => ( */}
-
-                                    <p style={{margin: 0}}><b>Selamat Datang</b>, {user?.nama_lengkap}</p>
-                                {/* ))} */}
+                                <p style={{margin: 0}}><b>Selamat Datang</b>, {user?.nama_lengkap}</p>
                                 <p style={{color: 'grey', fontSize: '12px'}}>Peserta</p>
                                 <Divider variant="middle" />
-                                <Button variant='outline-warning' style={{width: '100%', textAlign: 'left', border: 'none', marginBottom: 15}}><SettingsOutlinedIcon /> Account Settings</Button>
+                                <Button href={`/profile/${user.nama_lengkap}`} variant='outline-warning' style={{width: '100%', textAlign: 'left', border: 'none', marginBottom: 15}}><SettingsOutlinedIcon /> Account Settings</Button>
                                 <Button onClick={handleLogout} variant='outline-danger' style={{width: '100%', textAlign: 'left', border: 'none', marginBottom: 15}}><LogoutIcon /> Logout</Button>
                             </Box>
                         </Fade>
