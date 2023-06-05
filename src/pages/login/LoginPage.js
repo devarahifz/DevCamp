@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import './style.css'
 import { Col, Container, Row, Form, Button, Modal } from 'react-bootstrap'
-import { asyncSetAuthentication } from '../../reducers/auth_action'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { directus, url } from '../../configs/public_url'
+import { url } from '../../configs/public_url'
 import { login } from '../../reducers/user_reducer'
+import { Button as ButtonMUI } from '@mui/material'
 
 const LoginPage = () => {
   const card = {
@@ -29,6 +29,13 @@ const LoginPage = () => {
   const [confirm_kata_sandi, setConfirm] = useState('')
   const [dataUser, setDataUser] = useState('')
   const [isValid, setIsValid] = useState(true)
+  const token = localStorage.getItem('token')
+
+  useEffect(() => {
+    if (token) {
+      navigate('/peserta/dashboard')
+    }
+  }, [])
 
   const handleChange = (e, set, error, message) => {
     let value
@@ -96,34 +103,6 @@ const LoginPage = () => {
     }
   }
 
-  const [items, setItems] = useState('')
-  const handleLogin = async (e) => {
-    e.preventDefault()
-    let payload = {
-      email: email,
-      kata_sandi: kata_sandi,
-      confirm_kata_sandi: confirm_kata_sandi,
-    }
-
-    handleError(payload)
-    for (var keys in payload) {
-      if (payload[keys] === '') {
-        return
-      }
-    }
-
-    if (!isValid) {
-      return
-    }
-
-    dispatch(asyncSetAuthentication({ email, kata_sandi, confirm_kata_sandi}))
-    const timeout = setTimeout(() => {
-      navigate('/peserta/dashboard')
-    }, 2000)
-
-    return () => clearTimeout(timeout)
-  }
-
   const handleErrorEmail = (data) => {
     if (data.email === '') {
       setErrorEmail('Please enter your email')
@@ -187,9 +166,9 @@ const LoginPage = () => {
     <>
       <Row>
         <Col>
-          <Container style={{width: '50%', marginTop: '25%'}}>
+          <Container style={{width: '50%', marginTop: '20%'}}>
             <h1>Selamat Datang</h1>
-            <p style={{color: '#64748B'}}>Silahkan login menggunakan email yang terdaftar</p>
+            <p style={{color: '#64748B'}}>Untuk peserta silahkan login menggunakan email yang terdaftar</p>
             <Form onSubmit={onLogin}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email</Form.Label>
@@ -228,7 +207,7 @@ const LoginPage = () => {
               </Form.Group>
 
               <div className='text-end'>
-                <Button onClick={handleShow} style={{fontWeight: 'bold'}}>Lupa Password</Button>
+                <Button variant='light' onClick={handleShow} style={{fontWeight: 'bold', background: 'none', border: 'none'}}>Lupa Password</Button>
               </div>
     
               <Button 
@@ -241,6 +220,19 @@ const LoginPage = () => {
                 Masuk
               </Button>
             </Form>
+
+            <div className='mt-5'>
+              <hr/>
+              <p style={{color: '#64748B', marginTop: '20px'}} className='text-center'>Login untuk admin dan pengajar</p>
+              <Row>
+                <Col>
+                  <ButtonMUI href={url} variant="contained" color="success" sx={{width: '100%', fontFamily: 'Inter'}}>Pengajar</ButtonMUI>
+                </Col>
+                <Col>
+                  <ButtonMUI href={url} variant='contained' sx={{width: '100%', backgroundColor: '#8866ff', bordercolor: '#8866ff', "&:hover": {backgroundColor: "#5b44aa"}, fontFamily: 'Inter'}}>Admin</ButtonMUI>
+                </Col>
+              </Row>
+            </div>
 
             <Modal show={show} onHide={handleClose} centered>
               <Modal.Header closeButton>
