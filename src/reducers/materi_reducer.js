@@ -12,3 +12,25 @@ export const fetchMateri = createAsyncThunk(
     return res.data
   }
 )
+
+export const fetchMateriById = createAsyncThunk(
+  "materi/fetchMateriById",
+  async (id) => {
+    const res = await directus.items("materi").readOne(id, {
+      fields: [
+        "*",
+      ],
+    })
+    return res.data
+  }
+)
+
+export const updateTugas = createAsyncThunk(
+  "materi/updateTugas",
+  async (id, data) => {
+    const res = await directus.items("materi").updateOne(id, {
+      file_tugas_peserta: data,
+    })
+    return res.data
+  }
+)

@@ -1,4 +1,4 @@
-import { fetchMateri } from "../reducers/materi_reducer";
+import { fetchMateri, updateTugas, fetchMateriById } from "../reducers/materi_reducer";
 import { createSlice } from "@reduxjs/toolkit";
 
 const MateriSlicer = createSlice({
@@ -21,6 +21,34 @@ const MateriSlicer = createSlice({
       state.materi = action.payload
     })
     builder.addCase(fetchMateri.rejected, (state, action) => {
+      state.isLoading = false
+      state.isError = action.error.message
+    })
+    builder.addCase(fetchMateriById.pending, (state) => {
+      state.isLoading = true
+      state.isError = null
+      state.isSuccess = false
+    })
+    builder.addCase(fetchMateriById.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.isSuccess = true
+      state.materi = action.payload
+    })
+    builder.addCase(fetchMateriById.rejected, (state, action) => {
+      state.isLoading = false
+      state.isError = action.error.message
+    })
+    builder.addCase(updateTugas.pending, (state) => {
+      state.isLoading = true
+      state.isError = null
+      state.isSuccess = false
+    })
+    builder.addCase(updateTugas.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.isSuccess = true
+      state.materi = action.payload
+    })
+    builder.addCase(updateTugas.rejected, (state, action) => {
       state.isLoading = false
       state.isError = action.error.message
     })

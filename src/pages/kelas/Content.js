@@ -3,19 +3,21 @@ import { useParams } from 'react-router-dom'
 import { fetchMateri } from '../../reducers/materi_reducer'
 import { useDispatch, useSelector } from 'react-redux'
 import parse from 'html-react-parser'
-import { Input } from '@mui/material'
 import { url } from '../../configs/public_url'
 
 const Content = () => {
   let { id } = useParams()
   const dispatch = useDispatch()
   const { materi } = useSelector((state) => state.materi)
-  // const { auth } = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.user)
   const idUser = localStorage.getItem('idUser')
+  const email = localStorage.getItem('email')
 
-  const [tugas, setTugas] = useState('')
-  const [files, setFiles] = useState({
-    tugas: null
+  const [formData, setFormData] = useState({
+    idUser: idUser,
+    nama: '',
+    email: email,
+    file: null,
   })
 
   useEffect(() => {
@@ -24,48 +26,43 @@ const Content = () => {
     })()
   }, [dispatch])
 
-  useEffect(() => {
-    const idUser = localStorage.getItem('idUser')
-    fetch(`${url}/items/materi`)
-      .then((res) => res.json())
-      .then((json) => {
-        const tugas = json.data.filter((item) => item.idUser == idUser)
-        setTugas(tugas)
-      })
-      .catch((err) => console.log(err))
-  }, [])
+  const onSubmit = (e) => {
+    (async () => {
+      e.preventDefault()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const file = document.getElementById('file').files[0]
-    console.log(file)
-
-    const email = localStorage.getItem('email')
-    if (files.tugas !== null) {
-      const formData = new FormData()
-      formData.append('file', files.tugas)
-
+      const form = new FormData()
+      let folderId = "dc4c5322-9e98-407b-aae2-35cb254c7ea4"
+      form.append('folder', folderId)
+      form.append("file", formData.file)
+      console.log(formData)
       let tugasId = await fetch(`${url}/files`, {
         method: 'POST',
-        body: formData
+        body: form
       })
-      const json = await tugasId.json()
-      const submitTugas = await fetch(`${url}/items/materi`, {
-        method: 'POST',
+      const resJson = await tugasId.json()
+      const submitTugas = await fetch(`${url}/items/tugas_peserta`, {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
           idUser: idUser,
+          nama: user.nama_lengkap,
           email: email,
-          file_tugas_peserta: json.data.filename_download,
+          tugas: resJson.data.id
         })
       })
-
-      const resSubmitTugas = await submitTugas.json()
-
+      const resSubmitTugas = submitTugas.json()
+      console.log(resJson)
       return resSubmitTugas
-    }
+    })()
+  }
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.files[0],
+    }))
   }
 
   return (
@@ -73,7 +70,7 @@ const Content = () => {
       {materi.map((materi, index) => {
         if (materi.id == id) {
           return (
-            <div key={index}>
+            <form key={index} onSubmit={onSubmit}>
               <h2>{materi.judul_materi}</h2>
               {parse("<p>" + materi.isi_materi + "</p>")}
               {parse("<p>" + materi.tugas + "</p>")}
@@ -83,15 +80,17 @@ const Content = () => {
                 name="file"
                 accept='.pdf,.doc,.docx'
                 multiple
+                onChange={onChange}
+                // value={files.tugas}
               />
               <button
                 type="submit"
                 className="btn btn-primary"
-                onClick={handleSubmit}
+                // onClick={handleSubmit}
               >
                 Submit
               </button>
-            </div>
+            </form>
           )
         }
       })}
