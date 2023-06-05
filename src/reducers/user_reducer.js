@@ -6,11 +6,20 @@ export const getUserById = createAsyncThunk(
   async (id) => {
     const res = await directus.items("user").readOne(id,{
       fields: [
-        "id",
-        "nama_lengkap",
+        "*",
       ]
     })
-    console.log(res)
+    return res
+  }
+)
+
+export const updateUser = createAsyncThunk(
+  "user/updateUser",
+  async (data) => {
+    const res = await directus.items("user").updateOne(data.get("id"), {
+      nama_lengkap: data.get("nama_lengkap"),
+      email: data.get("email"),
+    })
     return res
   }
 )
@@ -31,6 +40,7 @@ export const login = createAsyncThunk(
         }
       }
     })
+    console.log(data)
     const hashPassword = res.data[0].kata_sandi
 
     const verify = await fetch(`${url}/utils/hash/verify`, {
