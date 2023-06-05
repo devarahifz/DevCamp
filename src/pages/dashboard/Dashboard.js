@@ -8,9 +8,12 @@ import parse from 'html-react-parser'
 const Dashboard = () => {
   const dispatch = useDispatch()
   const { kelas } = useSelector((state) => state.kelas)
+  const idUser = localStorage.getItem("idUser")
 
   useEffect(() => {
-    dispatch(fetchKelas())
+    (async () => {
+      await dispatch(fetchKelas())
+    })()
   }, [])
 
   return (
@@ -18,13 +21,13 @@ const Dashboard = () => {
       <Row>
         {kelas.map((kelas, index) => (
         <Col xs={4} key={index}>
-          <Card sx={{ maxWidth: 480, margin: '1rem', borderRadius: 3 }} key={index}>
-            <Button href={`/peserta/kelas/${kelas.nama_kelas}`}>
+          <Card sx={{ maxWidth: 480, margin: '1rem', borderRadius: 3 }} >
+            <Button href={`/peserta/kelas/${kelas.nama_kelas}`} disabled={kelas.peserta != idUser}>
               <CardActionArea>
                 <CardMedia
                   component="img"
                   height="80%"
-                  image={getAssetURL(kelas.cover)}
+                  image={getAssetURL(kelas?.cover)}
                   alt={kelas.nama_kelas}
                 />
                 <CardContent>
@@ -32,7 +35,7 @@ const Dashboard = () => {
                     {kelas.nama_kelas}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                  {kelas.deskripsi.length > 150
+                  {kelas.deskripsi?.length > 150
                   ? parse("<p>" + kelas.deskripsi.substring(0,120) + "..." + "</p>")
                   : parse("<p>" + kelas.deskripsi + "</p>")
                   }
@@ -42,7 +45,7 @@ const Dashboard = () => {
             </Button>
           </Card>
         </Col>
-        ))}  
+        ))}
       </Row>
     </>
   )

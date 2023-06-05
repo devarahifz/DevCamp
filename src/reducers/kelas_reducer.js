@@ -16,6 +16,27 @@ export const fetchKelas = createAsyncThunk(
   }
 )
 
+export const getKelasByUser = createAsyncThunk(
+  "kelas/getKelasByUser",
+  async (idUser) => {
+    const res = await directus.items("kelas").readByQuery({
+      fields: [
+        "*",
+        "materi.materi_id.judul_materi",
+        "materi.materi_id.isi_materi",
+        "materi.materi_id.id",
+      ],
+      filter: {
+        "peserta": {
+          _eq: idUser
+        }
+      }
+    })
+    console.log(res.data)
+    return res.data
+  }
+)
+
 export function getAssetURL(id) {
   return `${url}/assets/${id}`
 }

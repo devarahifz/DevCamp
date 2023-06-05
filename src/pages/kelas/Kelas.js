@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { fetchKelas, getAssetURL } from '../../reducers/kelas_reducer'
+import { getAssetURL, getKelasByUser } from '../../reducers/kelas_reducer'
 import { useDispatch, useSelector } from 'react-redux'
 import Overview from './Overview'
 
@@ -8,15 +8,19 @@ const Kelas = () => {
   let { name } = useParams()
   const dispatch = useDispatch()
   const { kelas } = useSelector((state) => state.kelas)
+  const idUser = localStorage.getItem('idUser')
 
   useEffect(() => {
-    dispatch(fetchKelas())
+    dispatch(getKelasByUser(idUser))
   }, [])
 
   return (
     <>
       {kelas.map((kelas, index) => {
         if (kelas.nama_kelas === name) {
+          if (kelas.peserta != idUser) {
+            window.location.href = '/peserta/dashboard'
+          }
           return (
             <div key={index}>
               <h3>{kelas.nama_kelas}</h3>
