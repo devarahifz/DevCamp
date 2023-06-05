@@ -10,10 +10,6 @@ function NavbarLanding() {
         paddingLeft: '10%',
         paddingRight: '10%',
     }
-    const font ={
-        color: 'black',
-        fontWeight: '500',
-    }
     const brand = {
         fontSize: 24,
         fontWeight: '500',
@@ -30,20 +26,13 @@ function NavbarLanding() {
             <Navbar.Collapse id="responsive-navbar-nav" className='justify-content-center'>
                 <Nav className="me-auto"></Nav>
                 <Nav className="justify-content-center">
-                    <Nav.Link className="me-3" style={font}>
-                        <Link to="/login"> 
-                            <Button className='py-2 px-4' variant='outline-primary' style={{borderColor: 'white', fontWeight: '500', color: 'white'}}> PESERTA </Button>
-                        </Link>
-                    </Nav.Link>
                 </Nav>
                 <Nav className='justify-content-center'>
-                    <Nav.Link href='http://localhost:8055'>
-                        {/* <Link to="http://localhost:8055"> */}
-                            <Button className='py-2 px-4' style={{background: '', fontWeight: '500'}}>
-                                PENGAJAR
-                            </Button>
-                        {/* </Link> */}
-                    </Nav.Link>
+                    <Link to="login">
+                        <Button className='py-2 px-4' style={{background: '', fontWeight: '500'}}>
+                            LOGIN
+                        </Button>
+                    </Link>
                 </Nav>
                 </Navbar.Collapse>
             </Container>
