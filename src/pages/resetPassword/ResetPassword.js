@@ -96,8 +96,8 @@ const ResetPassword = () => {
   const resetPasswordChange = async (e) => {
     e.preventDefault()
     let payload = {
-      password: password,
-      confirm_password: confirmPassword,
+      kata_sandi: password,
+      confirm_kata_sandi: confirmPassword,
     }
 
     const body = {
