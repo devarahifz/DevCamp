@@ -1,18 +1,20 @@
 import React, { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ClassIcon from '@mui/icons-material/Class';
 import { MdSpaceDashboard } from 'react-icons/md'
 import { MdClass } from 'react-icons/md'
-import { fetchKelas } from '../../reducers/kelas_reducer';
+import { fetchKelas} from '../../reducers/kelas_reducer';
 import { useDispatch, useSelector } from 'react-redux';
 
 const SideNavbar = () => {
   const dispatch = useDispatch()
   const { kelas } = useSelector((state) => state.kelas)
+  const idUser = localStorage.getItem('idUser')
 
   useEffect(() => {
-    dispatch(fetchKelas())
+    (async () => {
+      await dispatch(fetchKelas())
+      console.log(kelas)
+    })()
   }, [])
 
   const menu = ({ isActive }) => {
@@ -56,14 +58,17 @@ const SideNavbar = () => {
         <hr/>
         <div eventKey="disabled" disabled style={font}><MdClass /> Kelas</div >
         {kelas.map((kelas, index) => {
-          // if (kelas.materi.length > 0) {
-            return (
-              // <div key={index}>
-                <NavLink to={`/peserta/kelas/${kelas.nama_kelas}`} style={submenu}>{kelas.nama_kelas}</NavLink>
-                
-              // </div>
-            )   
-          // }
+          if (kelas.peserta == idUser)
+          return (
+            <>
+            <NavLink key={index} to={`/peserta/kelas/${kelas.nama_kelas}`} style={submenu} >{kelas.nama_kelas}</NavLink>
+            {kelas.materi.map((materi, index) => {
+              return (
+                <NavLink key={index} to={`/peserta/materi/${materi.materi_id.id}`} style={submenu} >Materi Ke - {index+1}</NavLink>
+              )
+            })}
+            </>
+          )
         })}
       </div>
     </>
