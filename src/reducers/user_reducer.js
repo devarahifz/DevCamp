@@ -6,8 +6,40 @@ export const getUserById = createAsyncThunk(
   async (id) => {
     const res = await directus.items("user").readOne(id,{
       fields: [
-        "*",
+        "id",
+        "nama_lengkap",
+        "email",
+        "tempat_lahir",
+        "tanggal_lahir",
+        "jenis_kelamin",
+        "nomor_telepon",
+        "alamat",
+        "pendidikan_terakhir",
+        "domisili",
+        "kelas",
+        "foto",
+        "token",
+        "progress",
+        "isActive"
       ]
+    })
+    return res
+  }
+)
+
+export const getUserByEmail = createAsyncThunk(
+  "user/getUser",
+  async (email) => {
+    const res = await directus.items("user").readByQuery({
+      fields: [
+        "id",
+        "email",
+      ],
+      filter: {
+        email: {
+          _eq: email
+        }
+      }
     })
     return res
   }
@@ -19,8 +51,70 @@ export const updateUser = createAsyncThunk(
     const res = await directus.items("user").updateOne(data.get("id"), {
       nama_lengkap: data.get("nama_lengkap"),
       email: data.get("email"),
+      tempat_lahir: data.get("tempat_lahir"),
+      tanggal_lahir: data.get("tanggal_lahir"),
+      jenis_kelamin: data.get("jenis_kelamin"),
+      nomor_telepon: data.get("nomor_telepon"),
+      alamat: data.get("alamat"),
+      pendidikan_terakhir: data.get("pendidikan_terakhir"),
+      domisili: data.get("domisili"),
     })
     return res
+  }
+)
+
+export const updatePassword = createAsyncThunk(
+  "user/updatePassword",
+  async (data) => {
+    const res = await directus.items("user").updateOne(data.get("id"), {
+      kata_sandi: data.get("kata_sandi"),
+    })
+    return res
+  }
+)
+
+export const register = createAsyncThunk(
+  "user/register",
+  async (data) => {
+    const token = makeid(20)
+    const res = await directus.items("user").createOne({
+      nama_lengkap: data.nama_lengkap,
+      kelas: data.kelas,
+      email: data.email,
+      kata_sandi: data.kata_sandi,
+      token: token
+    })
+
+    return {
+      nama_lengkap: data.nama_lengkap,
+      email: data.email,
+      token: token,
+      id: res.id
+    }
+  }
+)
+
+export const verifyEmail = createAsyncThunk(
+  "user/verify",
+  async (data) => {
+    const res = await directus.items("user").readByQuery({
+      fields: [
+        "id",
+        "email",
+        "token"
+      ],
+      filter: {
+        token: {
+          _eq: data.token
+        }
+      }
+    })
+
+    await directus.items("user").updateOne(res.data[0].id, {
+      isActive: true
+    })
+
+    return res.data
   }
 )
 
@@ -40,7 +134,7 @@ export const login = createAsyncThunk(
         }
       }
     })
-    console.log(data)
+    
     const hashPassword = res.data[0].kata_sandi
 
     const verify = await fetch(`${url}/utils/hash/verify`, {
@@ -75,4 +169,8 @@ function makeid(length) {
     counter += 1;
   }
   return result;
+}
+
+export function getFoto(id) {
+  return `${url}/assets/${id}`
 }

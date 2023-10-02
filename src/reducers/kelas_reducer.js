@@ -25,6 +25,7 @@ export const getKelasByUser = createAsyncThunk(
         "materi.materi_id.judul_materi",
         "materi.materi_id.isi_materi",
         "materi.materi_id.id",
+        "materi.materi_id.status",
       ],
       filter: {
         "peserta": {
@@ -32,7 +33,6 @@ export const getKelasByUser = createAsyncThunk(
         }
       }
     })
-    console.log(res.data)
     return res.data
   }
 )

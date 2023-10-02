@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { MdSpaceDashboard } from 'react-icons/md'
 import { MdClass } from 'react-icons/md'
-import { fetchKelas} from '../../reducers/kelas_reducer';
+import { getKelasByUser } from '../../reducers/kelas_reducer';
 import { useDispatch, useSelector } from 'react-redux';
 
 const SideNavbar = () => {
@@ -12,8 +12,7 @@ const SideNavbar = () => {
 
   useEffect(() => {
     (async () => {
-      await dispatch(fetchKelas())
-      console.log(kelas)
+      await dispatch(getKelasByUser(idUser))
     })()
   }, [])
 
@@ -46,26 +45,32 @@ const SideNavbar = () => {
 
   const style = {
     marginTop: '1rem',
-    marginLeft: '1rem',
+    paddingLeft: '0.5rem',
+    paddingRight: '0.5rem',
+    marginLeft: '0.5rem',
+    marginRight: '0.5rem',
     width: '10%',
-    height: '100%',
+    height: '90vh',
+    top: 100,
   }
 
   return (
     <>
-      <div className='d-flex flex-column' style={style}>
+      <div className='d-flex flex-column sticky-top overflow-auto' style={style}>
         <NavLink to="/peserta/dashboard" style={menu}><MdSpaceDashboard /> Dashboard</NavLink>
         <hr/>
-        <div eventKey="disabled" disabled style={font}><MdClass /> Kelas</div >
+        <div disabled style={font}><MdClass /> Kelas</div >
         {kelas.map((kelas, index) => {
-          if (kelas.peserta == idUser)
+          if ((kelas.peserta.includes(idUser)) )
           return (
             <>
-            <NavLink key={index} to={`/peserta/kelas/${kelas.nama_kelas}`} style={submenu} >{kelas.nama_kelas}</NavLink>
+            <NavLink key={index+1} to={`/peserta/kelas/${kelas.nama_kelas}`} style={submenu} >{kelas.nama_kelas}</NavLink>
             {kelas.materi.map((materi, index) => {
-              return (
-                <NavLink key={index} to={`/peserta/materi/${materi.materi_id.id}`} style={submenu} >Materi Ke - {index+1}</NavLink>
-              )
+              if (materi.materi_id.status == true) {
+                return (
+                  <NavLink key={index+1} to={`/peserta/materi/${materi.materi_id.id}`} style={submenu} >Materi Ke - {index+1}</NavLink>
+                )
+              }
             })}
             </>
           )

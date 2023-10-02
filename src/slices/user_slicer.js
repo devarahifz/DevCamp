@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getUserById, login, updateUser } from '../reducers/user_reducer'
+import { getUserById, register, login, updateUser, updatePassword, verifyEmail, getUserByEmail } from '../reducers/user_reducer'
 
 const UserSlicer = createSlice({
   name: 'user',
@@ -10,6 +10,34 @@ const UserSlicer = createSlice({
     isError: null,
   },
   extraReducers(builder) {
+    builder.addCase(register.pending, (state) => {
+      state.isLoading = true
+      state.isError = null
+      state.isSuccess = false
+    })
+    builder.addCase(register.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.isSuccess = true
+      state.user = action.payload
+    })
+    builder.addCase(register.rejected, (state, action) => {
+      state.isLoading = false
+      state.isError = action.error.message
+    })
+    builder.addCase(verifyEmail.pending, (state) => {
+      state.isLoading = true
+      state.isError = null
+      state.isSuccess = false
+    })
+    builder.addCase(verifyEmail.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.isSuccess = true
+      state.user = action.payload
+    })
+    builder.addCase(verifyEmail.rejected, (state, action) => {
+      state.isLoading = false
+      state.isError = action.error.message
+    })
     builder.addCase(login.pending, (state) => {
       state.isLoading = true
       state.isError = null
@@ -49,6 +77,34 @@ const UserSlicer = createSlice({
       state.user = action.payload
     })
     builder.addCase(updateUser.rejected, (state, action) => {
+      state.isLoading = false
+      state.isError = action.error.message
+    })
+    builder.addCase(updatePassword.pending, (state) => {
+      state.isLoading = true
+      state.isError = null
+      state.isSuccess = false
+    })
+    builder.addCase(updatePassword.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.isSuccess = true
+      state.user = action.payload
+    })
+    builder.addCase(updatePassword.rejected, (state, action) => {
+      state.isLoading = false
+      state.isError = action.error.message
+    })
+    builder.addCase(getUserByEmail.pending, (state) => {
+      state.isLoading = true
+      state.isError = null
+      state.isSuccess = false
+    })
+    builder.addCase(getUserByEmail.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.isSuccess = true
+      state.user = action.payload
+    })
+    builder.addCase(getUserByEmail.rejected, (state, action) => {
       state.isLoading = false
       state.isError = action.error.message
     })

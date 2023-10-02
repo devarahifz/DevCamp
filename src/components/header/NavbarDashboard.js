@@ -5,8 +5,10 @@ import logo from '../../assets/images/devcamp-2.png'
 import { Avatar, Box, Popper, Fade, Divider } from '@mui/material';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { getUserById } from '../../reducers/user_reducer';
+import { getFoto, getUserById } from '../../reducers/user_reducer';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
 
 function NavbarDashboard() {
     const background = {
@@ -31,15 +33,40 @@ function NavbarDashboard() {
         color: 'white'
     }
 
+    const navigate = useNavigate()
     const [open, setOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const { user } = useSelector((state) => state.user)
     const dispatch = useDispatch()
     const idUser = localStorage.getItem('idUser')
+    const token = localStorage.getItem('token')
+    const email = localStorage.getItem('email')
 
     useEffect(() => {
         (async () => {
-            await dispatch(getUserById(idUser))
+            const data = await dispatch(getUserById(idUser))
+            
+            if (data.payload.isActive == false) {
+                alert('Email belum diverifikasi')
+                setTimeout(() => {
+                    handleLogout()
+                }, 500)
+            }
+            else if (data.payload.token != token && data.payload.email != email) {
+                handleLogout()
+            }
+            else if (
+                    data.payload.foto == null || 
+                    data.payload.tempat_lahir == null || 
+                    data.payload.tanggal_lahir == null || 
+                    data.payload.jenis_kelamin == null || 
+                    data.payload.nomor_telepon == null || 
+                    data.payload.alamat == null ||
+                    data.payload.pendidikan_terakhir == null || 
+                    data.payload.domisili == null) {
+                alert('Silahkan lengkapi data diri anda terlebih dahulu')
+                navigate(`/profile/${data.payload.nama_lengkap}`)
+            }
         })()
     }, [])
 
@@ -51,7 +78,6 @@ function NavbarDashboard() {
     const handleLogout = () => {
         localStorage.removeItem('token')
         localStorage.removeItem('email')
-        localStorage.removeItem('idUser')
         window.location.href = '/'
     }
 
@@ -65,11 +91,17 @@ function NavbarDashboard() {
                 <Navbar.Brand style={brand}><img src={logo} alt="Logo DevCamp" /> DevCamp</Navbar.Brand>
             </Link>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+
+            <div className='ms-auto '>
+                <Link to= "/peserta/dashboard">
+                    <HomeIcon sx={{color: 'white', fontSize: '40px'}}/>
+                </Link>
+            </div>
             
             <Nav className="me-auto"></Nav>
                 <Nav className="justify-content-center">
                     <Button onClick={handleClick} className="me-3" style={font}>
-                        <Avatar src='../../assets/images/users/user-round.svg' />
+                        <Avatar src={user.foto == null ? '' : getFoto(user.foto)} />
                         <SettingsOutlinedIcon sx={{color: 'white', ml: 3}} />
                     </Button>
                     <Popper 

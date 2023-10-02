@@ -1,9 +1,9 @@
 import { url } from "../configs/public_url";
 
-const Login = async ({ email, password, confirm_password }) => {
+const Login = async ({ email, kata_sandi, confirm_kata_sandi }) => {
   const test = await fetch(
     url +
-      `/items/user?fields=*.*&filter[email][_eq]=${email}`
+      `/items/user?fields=*.*&filter[email][_eq]=${email}`,
   );
   const responseJson = await test.json();
 
@@ -39,10 +39,10 @@ const unsetAuthenticationActionCreator = () => {
   };
 };
 
-const asyncSetAuthentication = ({ email, password, confirm_password }) => {
+const asyncSetAuthentication = ({ email, kata_sandi, confirm_kata_sandi }) => {
   return async (dispatch) => {
     try {
-      const token = await Login({ email, password, confirm_password });
+      const token = await Login({ email, kata_sandi, confirm_kata_sandi });
 
       setToken(token);
       dispatch(setAuthenticationActionCreator(token));

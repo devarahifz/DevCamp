@@ -1,7 +1,7 @@
 import { Container, Row, Col } from 'react-bootstrap/';
 import logo from '../../assets/images/devcamp-1.png'
 
-function NavbarLanding() {
+function Footer() {
     const background = {
         backgroundColor: '#4361EE',
         boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.2)',
@@ -103,4 +103,4 @@ function NavbarLanding() {
     )
 }
 
-export default NavbarLanding;
+export default Footer;

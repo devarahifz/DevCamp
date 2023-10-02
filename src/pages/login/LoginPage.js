@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { url } from '../../configs/public_url'
 import { login } from '../../reducers/user_reducer'
 import { Button as ButtonMUI } from '@mui/material'
+import NavbarLanding from '../../components/header/NavbarLanding'
 
 const LoginPage = () => {
   const card = {
@@ -15,6 +16,7 @@ const LoginPage = () => {
     position: 'absolute',
     left: '4.29%',
     right: '4.29%',
+    width: '90%',
     top: '70.52%',
     bottom: '3.23%',
   }
@@ -26,9 +28,6 @@ const LoginPage = () => {
   const dispatch = useDispatch()
   const [email, setEmail] = useState('')
   const [kata_sandi, setKata_sandi] = useState('')
-  const [confirm_kata_sandi, setConfirm] = useState('')
-  const [dataUser, setDataUser] = useState('')
-  const [isValid, setIsValid] = useState(true)
   const token = localStorage.getItem('token')
 
   useEffect(() => {
@@ -37,7 +36,7 @@ const LoginPage = () => {
     }
   }, [])
 
-  const handleChange = (e, set, error, message) => {
+  const handleChange = (e, set) => {
     let value
     if (e) {
       value = e.target ? e.target.value : e.value
@@ -45,68 +44,7 @@ const LoginPage = () => {
       value = ''
     }
 
-    if (!value) {
-      error(`Please enter your ${message}`)
-    } else {
-      error('')
-    }
-
     set(value)
-  }
-
-  let [errorEmail, setErrorEmail] = useState('')
-  let [errorKata_sandi, setErrorKata_sandi] = useState('')
-  let [errorConfirm, setErrorConfirm] = useState('')
-
-  const handleError = (data) => {
-    const checkEmail = dataUser.data.filter(
-      (item) => item.email === data.email
-    )
-    const checkKata_sandi = dataUser.data.filter(
-      (item) => item.kata_sandi === data.kata_sandi
-    )
-    const checkConfirm = dataUser.data.filter(
-      (item) => item.confirm_kata_sandi === data.confirm_kata_sandi
-    )
-
-    if (data.email === '') {
-      setErrorEmail('Please enter your email')
-      setIsValid(false)
-    } else if (checkEmail.length === 0) {
-      setErrorEmail('Email not found')
-      setIsValid(false)
-    } else {
-      setErrorEmail('')
-      setIsValid(true)
-    }
-
-    if (data.kata_sandi === '') {
-      setErrorKata_sandi('Please enter your password')
-      setIsValid(false)
-    } else if (checkKata_sandi.length === 0) {
-      setErrorKata_sandi('Password is incorrect')
-      setIsValid(false)
-    } else {
-      setErrorKata_sandi('')
-      setIsValid(true)
-    }
-
-    if (data.confirm_kata_sandi === '') {
-      setErrorConfirm('Please enter your confirm password')
-      setIsValid(false)
-    } else if (checkConfirm.length === 0) {
-      setErrorConfirm('Confirm password is incorrect')
-      setIsValid(false)
-    } else {
-      setErrorConfirm('')
-      setIsValid(true)
-    }
-  }
-
-  const handleErrorEmail = (data) => {
-    if (data.email === '') {
-      setErrorEmail('Please enter your email')
-    }
   }
 
   const handleResetPassword = async (e) => {
@@ -116,54 +54,58 @@ const LoginPage = () => {
       reset_password_token: token,
     }
 
-    handleErrorEmail(body)
-
-    for (var keys in body) { 
-      if (body[keys] === '') {
-        e.preventDefault()
-        return
-      }
+    if (email === '') {
+      alert('Please fill all the form')
+      return
     }
-
-    try {
-      e.preventDefault()
-      const response = await fetch(`${url}/items/lupa_password`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      })
-
-      if (response.status === 200) {
-        alert('Silahkan cek email anda untuk reset password')
-      } else {
-        const error = await response.json()
-
-        console.error(error)
+    else {
+      try {
+        e.preventDefault()
+        const response = await fetch(`${url}/items/lupa_password`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        })
+  
+        if (response.status === 200) {
+          alert('Silahkan cek email anda untuk reset password')
+        } else {
+          const error = await response.json()
+  
+          console.error(error)
+        }
+      } catch (error) {
+        alert('error', error.message)
       }
-    } catch (error) {
-      alert('error', error.message)
     }
   }
 
   const onLogin = async (e) => {
     e.preventDefault()
-    const data = await dispatch(login({ email, kata_sandi }))
 
-    if (data.payload.verify === true) {
-      localStorage.setItem('token', data.payload.token)
-      localStorage.setItem('idUser', data.payload.id)
-      localStorage.setItem('email', email)
-      navigate('/peserta/dashboard')
-      console.log(data)
-    } else {
-      alert('Email atau password salah')
+    if (email === '' || kata_sandi === '') {
+      alert('Please fill all the form')
+      return
+    }
+    else {
+      const data = await dispatch(login({ email, kata_sandi }))
+  
+      if (data.payload.verify === true) {
+        localStorage.setItem('token', data.payload.token)
+        localStorage.setItem('idUser', data.payload.id)
+        localStorage.setItem('email', email)
+        navigate('/peserta/dashboard')
+      } else {
+        alert('Email atau password salah')
+      }
     }
   }
 
   return (
     <>
+      {/* <NavbarLanding /> */}
       <Row>
         <Col>
           <Container style={{width: '50%', marginTop: '20%'}}>
@@ -176,8 +118,7 @@ const LoginPage = () => {
                   type="email"
                   name="email"
                   value={email}
-                  onChange={(e) => handleChange(e, setEmail, setErrorEmail, 'email')}
-                  errorMessage={errorEmail}
+                  onChange={(e) => handleChange(e, setEmail)}
                   placeholder="Masukkan email" 
                 />
               </Form.Group>
@@ -188,24 +129,11 @@ const LoginPage = () => {
                   type="password"
                   name="password"
                   value={kata_sandi}
-                  onChange={(e) => handleChange(e, setKata_sandi, setErrorKata_sandi, 'kata sandi')}
-                  errorMessage={errorKata_sandi}
+                  onChange={(e) => handleChange(e, setKata_sandi)}
                   placeholder="Masukkan password" 
                 />
               </Form.Group>
               
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Konfirmasi Password</Form.Label>
-                <Form.Control 
-                  type="password"
-                  name="confirma_password"
-                  value={confirm_kata_sandi}
-                  onChange={(e) => handleChange(e, setConfirm, setErrorConfirm, 'confirm kata sandi')}
-                  errorMessage={errorConfirm}
-                  placeholder="Masukkan password" 
-                />
-              </Form.Group>
-
               <div className='text-end'>
                 <Button variant='light' onClick={handleShow} style={{fontWeight: 'bold', background: 'none', border: 'none'}}>Lupa Password</Button>
               </div>
@@ -220,6 +148,13 @@ const LoginPage = () => {
                 Masuk
               </Button>
             </Form>
+            
+            <div className='text-center mt-3'>
+              <p>
+                Belum punya akun?
+                <a href='/register' variant='light' style={{fontWeight: 'bold', background: 'none', border: 'none'}}>Daftar</a>
+              </p>
+            </div>
 
             <div className='mt-5'>
               <hr/>
@@ -246,8 +181,7 @@ const LoginPage = () => {
                         type="email"
                         name="email"
                         value={email}
-                        onChange={(e) => handleChange(e, setEmail, setErrorEmail, 'email')}
-                        errorMessage={errorEmail}
+                        onChange={(e) => handleChange(e, setEmail)}
                         placeholder="Masukkan email" 
                       />
                     </Form.Group>

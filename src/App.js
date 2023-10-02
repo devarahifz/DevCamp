@@ -4,6 +4,8 @@ import './App.css';
 
 // Pages
 import LandingPage from './pages/landing/LandingPage';
+import RegisterPage from './pages/register/RegisterPage';
+import VerifyEmail from './pages/verifyEmail/VerifyEmail';
 import LoginPage from './pages/login/LoginPage';
 import ResetPassword from './pages/resetPassword/ResetPassword';
 import Layout from './components/layout/Layout';
@@ -17,6 +19,8 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/profile/:name" element={<Profile />} />

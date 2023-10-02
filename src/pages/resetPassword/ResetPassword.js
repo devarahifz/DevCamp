@@ -36,9 +36,9 @@ const ResetPassword = () => {
       ? setErrorPassword('')
       : setErrorPassword('Please enter your password')
     if (data.confirm_password !== data.password) {
-      setErrorConfirm('Password not match')
+      alert(setErrorConfirm('Password not match'))
     } else if (data.confirm_password === '') {
-      setErrorConfirm('Please enter your confirm password')
+      alert(setErrorConfirm('Please enter your confirm password'))
     }
   }
 
@@ -97,7 +97,6 @@ const ResetPassword = () => {
     e.preventDefault()
     let payload = {
       kata_sandi: password,
-      confirm_kata_sandi: confirmPassword,
     }
 
     const body = {
@@ -112,16 +111,31 @@ const ResetPassword = () => {
     }
 
     try {
-      const updateResponse = await fetch(
-        `${url}/items/user/${userId}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        }
-      )
+      if (password !== confirmPassword) {
+        alert('Password not match')
+        return
+      }
+      else if (password == '') {
+        alert('Please enter your password')
+        return
+      }
+      else if (confirmPassword == '') {
+        alert('Please enter your confirm password')
+        return
+      }
+      else {
+        const updateResponse = await fetch(
+          `${url}/items/user/${userId}`,
+          {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          }
+        )
+        window.location.href = '/login'
+      }
     } catch (error){
       console.log("Error saat update password:", error)
     }
@@ -161,7 +175,7 @@ const ResetPassword = () => {
                 <Form.Label>Konfirmasi Password</Form.Label>
                 <Form.Control 
                   type="password"
-                  name="confirma_password"
+                  name="confirm_password"
                   value={confirmPassword || ''}
                   onChange={(e) => handleChange(e, setConfirm, setErrorConfirm, 'confirm password')}
                   // errorMessage={errorConfirm}

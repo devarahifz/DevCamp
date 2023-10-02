@@ -28,9 +28,14 @@ function NavbarLanding() {
                 <Nav className="justify-content-center">
                 </Nav>
                 <Nav className='justify-content-center'>
-                    <Link to="login">
+                    <Link to="/login">
                         <Button className='py-2 px-4' style={{background: '', fontWeight: '500'}}>
                             LOGIN
+                        </Button>
+                    </Link>
+                    <Link to="/register">
+                        <Button className='py-2 px-4 ms-3' variant='light' style={{fontWeight: '500'}}>
+                            REGISTER
                         </Button>
                     </Link>
                 </Nav>
