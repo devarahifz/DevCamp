@@ -106,7 +106,7 @@ export const verifyEmail = createAsyncThunk(
       ],
       filter: {
         verif_token: {
-          _eq: data.verif_token
+          _eq: data.token
         }
       }
     })
