@@ -255,8 +255,9 @@ const Profile = () => {
                   value="Lk"
                   checked={formData.jenis_kelamin === 'Lk'}
                   onChange={onChange}
+                  id='Lk'
                   />
-                <label className='form-check-label'>Laki-laki</label>
+                <label className='form-check-label' for='Lk'>Laki-laki</label>
               </div>
               <div className='form-check form-check-inline mt-3'>
                 <input 
@@ -267,8 +268,9 @@ const Profile = () => {
                   value="Pr"
                   checked={formData.jenis_kelamin === 'Pr'}
                   onChange={onChange}
+                  id='Pr'
                   />
-                <label className='form-check-label'>Perempuan</label>
+                <label className='form-check-label' for='Pr'>Perempuan</label>
               </div>
             </div>
             <div className='col'>
