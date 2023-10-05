@@ -19,6 +19,7 @@ export const getUserById = createAsyncThunk(
         "kelas",
         "foto",
         "token",
+        "verif_token",
         "progress",
         "isActive"
       ]
