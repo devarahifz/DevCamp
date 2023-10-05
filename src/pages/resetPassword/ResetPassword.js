@@ -134,6 +134,7 @@ const ResetPassword = () => {
             body: JSON.stringify(payload),
           }
         )
+        alert('Password berhasil diubah')
         window.location.href = '/login'
       }
     } catch (error){
