@@ -52,10 +52,10 @@ const VerifyEmail = () => {
       token
     }
     
-    if (data.token != user.token || data.email != user.email) {
+    if (data.token != user.verif_token || data.email != user.email) {
       alert('Token tidak valid')
     }
-    else if (data.token == user.token && data.email == user.email && user.isActive == false) {
+    else if (data.token == user.verif_token && data.email == user.email && user.isActive == false) {
       alert('Email berhasil diverifikasi')
       
       await dispatch(verifyEmail(data))
