@@ -56,9 +56,8 @@ const VerifyEmail = () => {
       alert('Token tidak valid')
     }
     else if (data.token == user.verif_token && data.email == user.email && user.isActive == false) {
-      alert('Email berhasil diverifikasi')
-      
       await dispatch(verifyEmail(data))
+      alert('Email berhasil diverifikasi')
       localStorage.removeItem('token')
       navigate('/login')
     }
