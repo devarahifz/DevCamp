@@ -82,13 +82,13 @@ export const register = createAsyncThunk(
       kelas: data.kelas,
       email: data.email,
       kata_sandi: data.kata_sandi,
-      verify_token: token
+      verif_token: token
     })
 
     return {
       nama_lengkap: data.nama_lengkap,
       email: data.email,
-      verify_token: token,
+      verif_token: token,
       id: res.id
     }
   }
@@ -101,11 +101,11 @@ export const verifyEmail = createAsyncThunk(
       fields: [
         "id",
         "email",
-        "verify_token"
+        "verif_token"
       ],
       filter: {
-        verify_token: {
-          _eq: data.verify_token
+        verif_token: {
+          _eq: data.verif_token
         }
       }
     })
