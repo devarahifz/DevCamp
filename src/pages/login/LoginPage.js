@@ -7,6 +7,7 @@ import { url } from '../../configs/public_url'
 import { login } from '../../reducers/user_reducer'
 import { Button as ButtonMUI } from '@mui/material'
 import NavbarLanding from '../../components/header/NavbarLanding'
+import { AiFillEyeInvisible } from 'react-icons/ai'
 
 const LoginPage = () => {
   const card = {
@@ -103,6 +104,16 @@ const LoginPage = () => {
     }
   }
 
+  const handleShowPassword = () => {
+    const password = document.getElementById('password')
+
+    if (password.type === 'password') {
+        password.type = 'text'
+    } else {
+        password.type = 'password'
+    }
+  } 
+
   return (
     <>
       {/* <NavbarLanding /> */}
@@ -123,15 +134,19 @@ const LoginPage = () => {
                 />
               </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Group className="mb-3 position-relative" controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
                 <Form.Control 
+                  id='password'
                   type="password"
                   name="password"
                   value={kata_sandi}
                   onChange={(e) => handleChange(e, setKata_sandi)}
                   placeholder="Masukkan password" 
                 />
+                <span style={{right: '20px', top: '55%', color: 'grey'}} className='position-absolute' onClick={handleShowPassword}>
+                  <AiFillEyeInvisible/>
+                </span>
               </Form.Group>
               
               <div className='text-end'>

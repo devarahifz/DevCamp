@@ -5,6 +5,7 @@ import { fetchKelas } from '../../reducers/kelas_reducer'
 import { getUserByEmail, register } from '../../reducers/user_reducer'
 import { useNavigate } from 'react-router-dom'
 import NavbarLanding from '../../components/header/NavbarLanding'
+import { AiFillEyeInvisible } from 'react-icons/ai'
 
 const RegisterPage = () => {
   const card = {
@@ -91,6 +92,24 @@ const RegisterPage = () => {
       }
     }
   }
+
+  const handleShowPassword = () => {
+    const password = document.getElementById('password')
+    const verifyPassword = document.getElementById('verifyPassword')
+
+    if (password.type === 'password') {
+        password.type = 'text'
+    } else {
+        password.type = 'password'
+    }
+
+    if (verifyPassword.type === 'password') {
+        verifyPassword.type = 'text'
+    } else {
+        verifyPassword.type = 'password'
+    }
+  } 
+
   return (
     <>
       {/* <NavbarLanding /> */}
@@ -106,7 +125,7 @@ const RegisterPage = () => {
         <Col>
           <Container style={{width: '50%', marginTop: '20%'}}>
             <h1>Selamat Datang</h1>
-            <p style={{color: '#64748B'}}>Untuk peserta silahkan login menggunakan email yang terdaftar</p>
+            <p style={{color: '#64748B'}}>Untuk peserta silahkan isi form untuk mendaftar</p>
             <Form onSubmit={onRegister}>
               <Form.Group className="mb-3">
                 <Form.Label>Nama Lengkap</Form.Label>
@@ -147,26 +166,34 @@ const RegisterPage = () => {
                 />
               </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Group className="mb-3 position-relative" controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
                 <Form.Control 
+                  id='password'
                   type="password"
                   name="password"
                   value={kata_sandi}
                   onChange={(e) => handleChange(e, setKata_sandi)}
                   placeholder="Masukkan password" 
                 />
+                <span style={{right: '20px', top: '55%', color: 'grey'}} className='position-absolute' onClick={handleShowPassword}>
+                  <AiFillEyeInvisible/>
+                </span>
               </Form.Group>
               
-              <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Group className="mb-3 position-relative" controlId="formBasicPassword">
                 <Form.Label>Konfirmasi Password</Form.Label>
                 <Form.Control 
+                  id='verifyPassword'
                   type="password"
                   name="confirm_kata_sandi"
                   value={confirm_kata_sandi}
                   onChange={(e) => handleChange(e, setConfirm)}
                   placeholder="Masukkan password" 
                 />
+                <span style={{right: '20px', top: '55%', color: 'grey'}} className='position-absolute' onClick={handleShowPassword}>
+                  <AiFillEyeInvisible/>
+                </span>
               </Form.Group>
 
     
