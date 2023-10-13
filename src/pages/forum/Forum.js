@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 // import { url } from '../../configs/public_url'
 
 const ForumDiscussion = () => {
-  const url = 'wss://143.198.90.40:8055/websocket'
+  const url = 'wss://devcamp.duckdns.org/websocket'
   // const access_token = "RkNFTIsPpbmnPFNjlW6FN7ng1xmA3zFh"
   const access_token = "kP9eNLfLSyHAhWQ4ZzRDZZ6-yLicmTmO"
   const connection = new WebSocket(url) 
