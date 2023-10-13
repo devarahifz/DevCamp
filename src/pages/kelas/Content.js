@@ -109,8 +109,8 @@ const Content = () => {
         return
       } else {
         const form = new FormData()
-        // let folderId = "dc4c5322-9e98-407b-aae2-35cb254c7ea4"
-        let folderId = "3497be16-01c2-4540-8154-09aa831acf01"
+        let folderId = "dc4c5322-9e98-407b-aae2-35cb254c7ea4"
+        // let folderId = "3497be16-01c2-4540-8154-09aa831acf01"
         form.append('folder', folderId)
         form.append("file", formData.file)
   

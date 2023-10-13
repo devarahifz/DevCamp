@@ -59,8 +59,8 @@ const Profile = () => {
   const onSubmitFoto = async (e) => {
     e.preventDefault()
     const form = new FormData()
-    // let folderId = "1cf9ed6d-3efe-4e8f-a16e-fa3519e155dc"
-    let folderId = "82aa41cd-2b41-4e6c-9268-9bd198ab166a"
+    let folderId = "1cf9ed6d-3efe-4e8f-a16e-fa3519e155dc"
+    // let folderId = "82aa41cd-2b41-4e6c-9268-9bd198ab166a"
     form.append('folder', folderId)
     form.append("file", formData.file)
     console.log(form)

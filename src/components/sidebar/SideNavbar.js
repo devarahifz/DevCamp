@@ -59,11 +59,13 @@ const SideNavbar = () => {
       <div className='d-flex flex-column sticky-top overflow-auto' style={style}>
         <NavLink to="/peserta/dashboard" style={menu}><MdSpaceDashboard /> Dashboard</NavLink>
         <hr/>
-        <div disabled style={font}><MdClass /> Kelas</div >
         {kelas.map((kelas, index) => {
           if ((kelas.peserta.includes(idUser)) )
+          // if ((kelas.peserta.includes(parseInt(idUser))) )
           return (
             <>
+            <NavLink to={`/peserta/forum-diskusi/${kelas.nama_kelas}`} style={submenu}><MdClass /> Forum Diskusi</NavLink >
+            <div disabled style={font}><MdClass /> Kelas</div >
             <NavLink key={index+1} to={`/peserta/kelas/${kelas.nama_kelas}`} style={submenu} >{kelas.nama_kelas}</NavLink>
             {kelas.materi.map((materi, index) => {
               if (materi.materi_id.status == true) {

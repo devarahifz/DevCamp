@@ -13,6 +13,7 @@ import Kelas from './pages/kelas/Kelas';
 import Dashboard from './pages/dashboard/Dashboard';
 import Content from './pages/kelas/Content';
 import Profile from './pages/profile/Profile';
+import ForumDiscussion from './pages/forum/Forum';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/peserta" element={<Layout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="kelas/:name" element={<Kelas />} />
+          <Route path="forum-diskusi/:name" element={<ForumDiscussion />} />
           <Route path="materi/:id" element={<Content />} />
         </Route>
       </Routes>

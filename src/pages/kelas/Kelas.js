@@ -89,6 +89,7 @@ const Kelas = () => {
       {kelas.map((kelas, index) => {
         if (kelas.nama_kelas === name) {
           if (!(kelas.peserta.includes(idUser)) ) {
+          // if (!(kelas.peserta.includes(parseInt(idUser))) ) {
             window.location.href = '/peserta/dashboard'
           }
           return (

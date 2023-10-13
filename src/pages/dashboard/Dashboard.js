@@ -22,7 +22,7 @@ const Dashboard = () => {
         {kelas.map((kelas, index) => (
         <Col xs={4} key={index}>
           <Card sx={{ maxWidth: 480, margin: '1rem', borderRadius: 3 }} >
-            {/* <Button href={`/peserta/kelas/${kelas.nama_kelas}`} disabled={!(kelas.peserta.includes(parseInt(idUser))) }> */}
+            {/* <CardActionArea href={`/peserta/kelas/${kelas.nama_kelas}`} disabled={!(kelas.peserta.includes(parseInt(idUser))) }> */}
               <CardActionArea href={`/peserta/kelas/${kelas.nama_kelas}`} disabled={!(kelas.peserta.includes(idUser)) }>
                 <CardMedia
                   component="img"
