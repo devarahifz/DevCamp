@@ -18,7 +18,7 @@ const Kelas = () => {
       padding: '0.5rem 0',
     },
     card: {
-      backgroundColor: 'rgba(255, 255, 255, 0.65)',
+      backgroundColor: 'white',
       borderRadius: 10,
       padding: '0.5rem 1rem',
       margin: '0 1rem 1rem 0',
@@ -60,7 +60,7 @@ const Kelas = () => {
 
       kelas.map((kelas) => {
         kelas.materi.map((materi) => {
-          if (kelas.id == user.kelas && materi.materi_id.status == true) {
+          if (kelas.id == user.kelas.id && materi.materi_id.status == true) {
             totalMateri += 1
           }
         })
@@ -97,14 +97,14 @@ const Kelas = () => {
               <div className='row'>
                 <div className='col'>
                   <div style={style.card}>
-                    <h3 style={{margin: 0}}>{kelas.nama_kelas}</h3>
+                    <h3 style={{margin: 0, fontWeight: '600'}}>{kelas.nama_kelas}</h3>
                   </div>
                   <div className='text-center' style={style.card}>
                     <img src={getAssetURL(kelas.cover)} alt={kelas.nama_kelas} style={style.cover}/>
                   </div>
                 </div>
                 <div className='col' style={style.card}>
-                  <h4>Deskripsi</h4>
+                  <h4 style={{fontWeight: '600'}}>Deskripsi</h4>
                   <hr/>
                   <div style={{textAlign: 'justify'}}>{parse('<p>' + kelas.deskripsi + '</p>')}</div>
                 </div>

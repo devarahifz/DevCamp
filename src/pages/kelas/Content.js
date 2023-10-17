@@ -109,8 +109,11 @@ const Content = () => {
         return
       } else {
         const form = new FormData()
-        let folderId = "dc4c5322-9e98-407b-aae2-35cb254c7ea4"
-        // let folderId = "3497be16-01c2-4540-8154-09aa831acf01"
+        // for local
+        // let folderId = "dc4c5322-9e98-407b-aae2-35cb254c7ea4"
+        
+        // for deploy
+        let folderId = "3497be16-01c2-4540-8154-09aa831acf01"
         form.append('folder', folderId)
         form.append("file", formData.file)
   
@@ -262,6 +265,7 @@ const Content = () => {
                       type="submit"
                       variant='contained'
                       className="col-2 my-auto mx-auto h-50"
+                      sx={{backgroundColor: '#3f51b5', color: 'white'}}
                       disabled={file.length > 0 ? true : false}
                       >
                       Submit
@@ -295,9 +299,19 @@ const Content = () => {
                   <>
                     <div key={index} className='text-center'>
                       <p>{file.nama_file}</p>
-                      <p>{file.link}</p>
-                      <IconButton sx={{}} onClick={handleShowDelete}>
-                        <DeleteIcon sx={{color: 'red'}}/>
+                      <a href={file.link}>Link Tugas</a>
+                      <br/>
+                      <IconButton onClick={handleShowDelete}>
+                        {
+                          nilaiHarian.filter((item) => item.peserta == idUser && item.materi == id).map((item) => {
+                            if (item.nilai == null) {
+                              return <DeleteIcon sx={{color: 'red'}}/>
+                            }
+                            return (
+                              <DeleteIcon sx={{color: 'red', display: 'none'}}/>
+                            )
+                          })
+                        }
                       </IconButton>
                     </div>
                     <Modal show={showDelete} onHide={handleCloseDelete} backdrop="static" keyboard={false} centered>

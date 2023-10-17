@@ -59,8 +59,11 @@ const Profile = () => {
   const onSubmitFoto = async (e) => {
     e.preventDefault()
     const form = new FormData()
-    let folderId = "1cf9ed6d-3efe-4e8f-a16e-fa3519e155dc"
-    // let folderId = "82aa41cd-2b41-4e6c-9268-9bd198ab166a"
+    // for local
+    // let folderId = "1cf9ed6d-3efe-4e8f-a16e-fa3519e155dc"
+
+    // for deploy
+    let folderId = "82aa41cd-2b41-4e6c-9268-9bd198ab166a"
     form.append('folder', folderId)
     form.append("file", formData.file)
     console.log(form)
@@ -141,20 +144,23 @@ const Profile = () => {
 
   const handleShowPassword = () => {
     const password = document.getElementById('password')
-    const verifyPassword = document.getElementById('verifyPassword')
-
+    
     if (password.type === 'password') {
-        password.type = 'text'
+      password.type = 'text'
     } else {
-        password.type = 'password'
-    }
-
-    if (verifyPassword.type === 'password') {
-        verifyPassword.type = 'text'
-    } else {
-        verifyPassword.type = 'password'
+      password.type = 'password'
     }
   } 
+  
+  const handleShowConfirmPassword = () => {
+    const verifyPassword = document.getElementById('verifyPassword')
+    
+    if (verifyPassword.type === 'password') {
+      verifyPassword.type = 'text'
+    } else {
+      verifyPassword.type = 'password'
+    }
+  }
 
   const [showEditFoto, setShowEditFoto] = useState(false);
   const handleCloseEditFoto = () => setShowEditFoto(false);
@@ -416,7 +422,7 @@ const Profile = () => {
                   value={formDataPassword.confirm_kata_sandi}
                   onChange={onChange}
                 />
-                <span style={{right: '20px', top: '55%', color: 'grey'}} className='position-absolute' onClick={handleShowPassword}>
+                <span style={{right: '20px', top: '55%', color: 'grey'}} className='position-absolute' onClick={handleShowConfirmPassword}>
                   <AiFillEyeInvisible/>
                 </span>
               </Form.Group>

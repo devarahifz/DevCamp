@@ -10,7 +10,7 @@ const Layout = () => {
       <NavbarDashboard />
       <div className='d-flex' style={{height: ''}}>
         <SideNavbar />
-        <Container sx={{p: 3, bgcolor: '#eef2f6', minWidth: '85%', borderRadius: 5, marginLeft: 3, marginY: 2}}>
+        <Container sx={{p: 3, bgcolor: '#eef2f6', minWidth: '83%', borderRadius: 5, marginLeft: 3, marginY: 2}}>
           <Outlet />
         </Container>
       </div>

@@ -1,9 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Form, Button } from 'react-bootstrap'
+import { Form, Button } from 'react-bootstrap'
 import { url } from '../../configs/public_url'
 import { useNavigate } from 'react-router-dom'
+import logo from '../../assets/images/devcamp-1.png'
+import { AiFillEyeInvisible } from 'react-icons/ai'
 
 const ResetPassword = () => {
+  const card = {
+    border: "2px solid #ECECEC",
+    borderRadius: "12px",
+    padding: "3rem 3rem",
+    margin: "5rem auto",
+    minWidth :"300px",
+    maxWidth:"30%",
+    textAlign: 'center',
+    backgroundColor: '#4361EE',
+    color: 'white'
+  }
+  const input = {
+    border: "2px solid white"
+  }
+
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirm] = useState('')
   const [errorPassword, setErrorPassword] = useState('')
@@ -153,47 +170,76 @@ const ResetPassword = () => {
     changeIsUsedToTrue()
   }
 
+  const handleShowPassword = () => {
+    const password = document.getElementById('password')
+
+    if (password.type === 'password') {
+        password.type = 'text'
+    } else {
+        password.type = 'password'
+    }
+  } 
+
+  const handleShowConfirmPassword = () => {
+    const verifyPassword = document.getElementById('verifyPassword')
+
+    if (verifyPassword.type === 'password') {
+      verifyPassword.type = 'text'
+    } else {
+      verifyPassword.type = 'password'
+    }
+  }
+
   if (data) {
     return (
       <>
-        <Container className='mt-5' style={{width: '50%'}}>
-          <h1 className='text-center mb-5'>Reset Password</h1>
-          <p>Lupa password? <b>Reset password disini!</b></p>
-            <Form onSubmit={resetPasswordChange}>
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Password Baru</Form.Label>
-                <Form.Control 
-                  type="password"
-                  name="password"
-                  value={password || ''}
-                  onChange={(e) => handleChange(e, setPassword, setErrorPassword, 'password')}
-                  // errorMessage={errorPassword}
-                  placeholder="Masukkan password" 
-                />
-              </Form.Group>
-              
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Konfirmasi Password</Form.Label>
-                <Form.Control 
-                  type="password"
-                  name="confirm_password"
-                  value={confirmPassword || ''}
-                  onChange={(e) => handleChange(e, setConfirm, setErrorConfirm, 'confirm password')}
-                  // errorMessage={errorConfirm}
-                  placeholder="Masukkan password" 
-                />
-              </Form.Group>
-              <Button 
-                variant="primary" 
-                type="submit"
-                // onClick={() => setShow(true)}
-                style={{width: '100%'}}
-                className='mt-3'
-              >
-                Kirim Password
-              </Button>
-            </Form>
-        </Container>
+        <div className='container w-full' style={card}>
+          <img src={logo} alt="logo" />
+          <p style={{fontSize: '1.2rem', margin: '1rem 0 2rem'}}>Silahkan masukkan <b>password baru</b> Anda untuk <b>aktivasi akun</b></p>
+          <Form onSubmit={resetPasswordChange}>
+            <Form.Group className="mb-3 text-start position-relative" controlId="formBasicPassword">
+              <Form.Label>Password Baru</Form.Label>
+              <Form.Control 
+                id='password'
+                type="password"
+                name="password"
+                value={password || ''}
+                onChange={(e) => handleChange(e, setPassword, setErrorPassword, 'password')}
+                // errorMessage={errorPassword}
+                placeholder="Masukkan password" 
+                style={input}
+              />
+              <span style={{right: '20px', top: '55%', color: 'grey'}} className='position-absolute' onClick={handleShowPassword}>
+                <AiFillEyeInvisible/>
+              </span>
+            </Form.Group>
+            
+            <Form.Group className="mb-3 text-start position-relative" controlId="formBasicPassword">
+              <Form.Label>Konfirmasi Password</Form.Label>
+              <Form.Control 
+                id='verifyPassword'
+                type="password"
+                name="confirm_password"
+                value={confirmPassword || ''}
+                onChange={(e) => handleChange(e, setConfirm, setErrorConfirm, 'confirm password')}
+                // errorMessage={errorConfirm}
+                placeholder="Masukkan password" 
+                style={input}
+              />
+              <span style={{right: '20px', top: '55%', color: 'grey'}} className='position-absolute' onClick={handleShowConfirmPassword}>
+                <AiFillEyeInvisible/>
+              </span>
+            </Form.Group>
+            <Button 
+              type="submit"
+              // onClick={() => setShow(true)}
+              style={{background: '#1E266D', fontWeight: '500', margin: '3rem 0'}}
+              className='my-3 w-100'
+            >
+              SUBMIT
+            </Button>
+          </Form>
+        </div>
       </>
     )
   } else {

@@ -15,13 +15,25 @@ const Dashboard = () => {
     dispatch(fetchKelas())
   }, [])
   
+  const style = {
+    card: {
+      backgroundColor: 'white',
+      borderRadius: 10,
+      padding: '1rem 2rem',
+      margin: '0 0 1rem 0',
+      height: 'auto',
+    },
+  }
+
   return (
     <> 
-      <h4>Hello, {user.nama_lengkap} !</h4>
+      <div style={style.card}>
+        <h3 style={{margin: 0, fontWeight: '600'}}>Hello, {user.nama_lengkap} !</h3>
+      </div>
       <Row>
         {kelas.map((kelas, index) => (
-        <Col xs={4} key={index}>
-          <Card sx={{ maxWidth: 480, margin: '1rem', borderRadius: 3 }} >
+        <Col xs={4} key={index} style={{padding: 0}}>
+          <Card sx={{ minWidth: 480, margin: '1rem', borderRadius: 3 }} >
             {/* <CardActionArea href={`/peserta/kelas/${kelas.nama_kelas}`} disabled={!(kelas.peserta.includes(parseInt(idUser))) }> */}
               <CardActionArea href={`/peserta/kelas/${kelas.nama_kelas}`} disabled={!(kelas.peserta.includes(idUser)) }>
                 <CardMedia
