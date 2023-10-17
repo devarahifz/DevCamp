@@ -43,7 +43,7 @@ const Content = () => {
   })
 
   const [formDataLink, setFormDataLink] = useState({
-    link: "",
+    link: null,
   })
 
   useEffect(() => {
@@ -244,15 +244,16 @@ const Content = () => {
                           id="file"
                           type="file"
                           name="file"
-                          accept='.rar, .pdf'
+                          accept='.rar, .zip'
                           onChange={onChange}
                           disabled={file.length > 0 ? true : false}
                           />
+                          <small className='text-muted'>File Maksimal 5MB</small>
                       </Form.Group>
                       <Form.Group className='mt-3'>
                         <Form.Label>Alternatif Link (optional)</Form.Label>
                         <Form.Control 
-                          type='text'
+                          type='url'
                           name='link'
                           placeholder='Masukkan link alternatif'
                           disabled={file.length > 0 ? true : false}
@@ -299,8 +300,14 @@ const Content = () => {
                   <>
                     <div key={index} className='text-center'>
                       <p>{file.nama_file}</p>
-                      <a href={file.link}>Link Tugas</a>
-                      <br/>
+                      {
+                        file.link != null ?
+                        <>
+                          <a href={file.link}>Link Tugas</a>
+                          <br/>
+                        </> :
+                        null
+                      }
                       <IconButton onClick={handleShowDelete}>
                         {
                           nilaiHarian.filter((item) => item.peserta == idUser && item.materi == id).map((item) => {
