@@ -262,6 +262,7 @@ const Profile = () => {
                   checked={formData.jenis_kelamin === 'Lk'}
                   onChange={onChange}
                   id='Lk'
+                  required
                   />
                 <label className='form-check-label' for='Lk'>Laki-laki</label>
               </div>
@@ -275,6 +276,7 @@ const Profile = () => {
                   checked={formData.jenis_kelamin === 'Pr'}
                   onChange={onChange}
                   id='Pr'
+                  required
                   />
                 <label className='form-check-label' for='Pr'>Perempuan</label>
               </div>
@@ -338,13 +340,13 @@ const Profile = () => {
         <Modal show={showAlert} onHide={handleCloseAlert} backdrop="static" keyboard={false} style={{width: '20%', margin: '0 40%'}} >
           <Modal.Body className='py-5 text-center'>
             <div className='mb-3'>
-              <Modal.Title>Data belum disimpan !</Modal.Title>
+              <Modal.Title>Anda Yakin ?</Modal.Title>
             </div>
-            <Button onClick={handleCloseAlert} variant="primary" type="submit" className='me-2' style={{background: '#4361EE', width: '35%'}} >
-              UBAH
+            <Button href={`/peserta/dashboard`} variant="danger" type="submit" className='me-2' style={{width: '35%'}} >
+              YA
             </Button>
-            <Button href={`/peserta/dashboard`} variant="primary" type="submit" className='ms-2' style={{background: 'none', border: '2px solid #4361EE', color: '#4361EE', width: '35%'}} >
-              BATAL
+            <Button onClick={handleCloseAlert} variant="primary" type="submit" className='ms-2' style={{background: '', width: '35%'}} >
+              TIDAK
             </Button>
           </Modal.Body>
         </Modal>
