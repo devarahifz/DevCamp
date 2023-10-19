@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Form, Button, Spinner } from 'react-bootstrap'
 import logo from '../../assets/images/devcamp-1.png'
 import { useDispatch } from 'react-redux'
-import { getUserById, verifyEmail } from '../../reducers/user_reducer'
+import { getUserByEmail, verifyEmail } from '../../reducers/user_reducer'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -27,10 +27,10 @@ const VerifyEmail = () => {
   const { user, isLoading } = useSelector((state) => state.user)
   const [email, setEmail] = useState('')
   const [token, setToken] = useState('')
-  const idUser = localStorage.getItem('idUser')
+  const emailUser = localStorage.getItem('email')
 
   useEffect(() => {
-    dispatch(getUserById(idUser))
+    dispatch(getUserByEmail(emailUser))
   }, [])
 
   const onChange = (e, set) => {
@@ -52,13 +52,14 @@ const VerifyEmail = () => {
       token
     }
     
-    if (data.token != user.verif_token || data.email != user.email) {
+    if (data.token != user.data[0].verif_token || data.email != user.data[0].email) {
       alert('Token tidak valid')
     }
-    else if (data.token == user.verif_token && data.email == user.email && user.isActive == false) {
+    else if (data.token == user.data[0].verif_token && data.email == user.data[0].email && user.data[0].isActive == false) {
       await dispatch(verifyEmail(data))
       alert('Email berhasil diverifikasi')
       localStorage.removeItem('token')
+      localStorage.removeItem('email')
       navigate('/login')
     }
   }

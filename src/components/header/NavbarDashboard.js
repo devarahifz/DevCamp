@@ -76,8 +76,9 @@ function NavbarDashboard() {
     };
 
     const handleLogout = () => {
+        localStorage.removeItem('idUser')
         localStorage.removeItem('token')
-        localStorage.removeItem('email')
+        // localStorage.removeItem('email')
         window.location.href = '/'
     }
 

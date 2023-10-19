@@ -36,6 +36,8 @@ export const getUserByEmail = createAsyncThunk(
       fields: [
         "id",
         "email",
+        "verif_token",
+        "isActive"
       ],
       filter: {
         email: {

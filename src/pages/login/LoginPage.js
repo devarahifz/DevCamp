@@ -96,7 +96,7 @@ const LoginPage = () => {
       if (data.payload.verify === true) {
         localStorage.setItem('token', data.payload.token)
         localStorage.setItem('idUser', data.payload.id)
-        localStorage.setItem('email', email)
+        // localStorage.setItem('email', email)
         navigate('/peserta/dashboard')
       } else {
         alert('Email atau password salah')

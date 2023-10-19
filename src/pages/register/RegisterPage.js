@@ -82,7 +82,7 @@ const RegisterPage = () => {
         if (!data.error) {
           alert('Register success, silahkan cek email untuk aktivasi akun')
           // localStorage.setItem('token', data.payload.token)
-          localStorage.setItem('idUser', data.payload.id)
+          localStorage.setItem('email', data.payload.email)
           // localStorage.setItem('email', email)
           navigate(`/login`)
         }
