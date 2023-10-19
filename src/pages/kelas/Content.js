@@ -28,7 +28,6 @@ const Content = () => {
   const { user } = useSelector((state) => state.user)
   const { nilaiHarian } = useSelector((state) => state.nilaiHarian)
   const idUser = localStorage.getItem('idUser')
-  const email = localStorage.getItem('email')
   const nilaiId = localStorage.getItem('nilai')
   const [file, setFile] = useState([])
   const [nilai, setNilai] = useState([])
@@ -76,7 +75,7 @@ const Content = () => {
           body: JSON.stringify({
             idUser: idUser,
             nama: user.nama_lengkap,
-            email: email,
+            email: user.email,
             tugas: null,
             nama_file: null,
             materi: id,
@@ -130,7 +129,7 @@ const Content = () => {
           body: JSON.stringify({
             idUser: idUser,
             nama: user.nama_lengkap,
-            email: email,
+            email: user.email,
             tugas: resJson.data.id,
             nama_file: resJson.data.filename_download,
             materi: id,
@@ -327,12 +326,12 @@ const Content = () => {
                             <Modal.Title style={{fontSize: '36px', fontWeight: 'bold', width: '100%'}}>Yakin ingin dihapus ?</Modal.Title>
                         </div>
                         <div className='text-center mt-2'>
-                          <Button variant='contained' className='w-100' onClick={() => onDeleteTugas(file.id, file.tugas)}>
+                          <Button variant='contained' color='error' className='w-100' onClick={() => onDeleteTugas(file.id, file.tugas)}>
                             YA
                           </Button>
                         </div>
                         <div className='text-center mt-2'>
-                          <Button variant='contained' color='error' className='w-100' onClick={handleCloseDelete}>
+                          <Button variant='contained' className='w-100' onClick={handleCloseDelete}>
                             TIDAK
                           </Button>
                         </div>
