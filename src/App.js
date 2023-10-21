@@ -14,6 +14,7 @@ import Dashboard from './pages/dashboard/Dashboard';
 import Content from './pages/kelas/Content';
 import Profile from './pages/profile/Profile';
 import ForumDiscussion from './pages/forum/Forum';
+import ForumPengajar from './pages/forum/Pengajar';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="kelas/:name" element={<Kelas />} />
           <Route path="forum-diskusi/:name" element={<ForumDiscussion />} />
+          <Route path="forum-diskusi-pengajar/:name" element={<ForumPengajar />} />
           <Route path="materi/:id" element={<Content />} />
         </Route>
       </Routes>

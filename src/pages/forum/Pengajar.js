@@ -5,7 +5,7 @@ import { getFoto } from '../../reducers/user_reducer'
 import { Avatar, Button } from '@mui/material'
 const url = 'wss://devcamp.duckdns.org/websocket'
 
-const ForumDiscussion = () => {
+const ForumPengajar = () => {
 	const [newMessage, setNewMessage] = useState('');
 	const [messageHistory, setMessageHistory] = useState([]);
   const { user } = useSelector((state) => state.user)
@@ -14,24 +14,19 @@ const ForumDiscussion = () => {
   const intervalRef = useRef(null);
 
   useEffect(() => {
-    if (user.isPengajar != true) {
-      connectionRef.current = new WebSocket(url);
-      connectionRef.current.addEventListener('open', function () {
-        authenticate();
-      })
-      connectionRef.current.addEventListener('message', (message) => receiveMessage(message));
+    connectionRef.current = new WebSocket(url);
+    connectionRef.current.addEventListener('open', function () {
+      authenticate();
+    })
+    connectionRef.current.addEventListener('message', (message) => receiveMessage(message));
 
-      intervalRef.current = setInterval(() => {
-        connectionRef.current.send(JSON.stringify({ type: 'ping' }));
-      }, 30000); // Sends a ping every 30 seconds
+    intervalRef.current = setInterval(() => {
+      connectionRef.current.send(JSON.stringify({ type: 'ping' }));
+    }, 30000); // Sends a ping every 30 seconds
 
-      return () => {
-        clearInterval(intervalRef.current);
-      };
-    }
-    else {
-      window.location.href = '/peserta/dashboard'
-    }
+    return () => {
+      clearInterval(intervalRef.current);
+    };
   }, [])
 
 	const authenticate = () => {
@@ -46,7 +41,7 @@ const ForumDiscussion = () => {
 			connectionRef.current.send(
 				JSON.stringify({
 					type: 'subscribe',
-					collection: 'forum_diskusi',
+					collection: 'diskusi_pengajar',
 					query: {
 						fields: [
               '*',
@@ -84,7 +79,7 @@ const ForumDiscussion = () => {
 		connectionRef.current.send(
 			JSON.stringify({
 				type: 'items',
-				collection: 'forum_diskusi',
+				collection: 'diskusi_pengajar',
 				action: 'create',
 				data: { 
           text: newMessage,
@@ -116,7 +111,7 @@ const ForumDiscussion = () => {
       <div className='col'>
 
       <div style={style.card}>
-        <h3 style={{margin: 0, fontWeight: '600'}}>Forum Diskusi Antar Peserta Kelas {user.kelas?.nama_kelas}</h3>
+        <h3 style={{margin: 0, fontWeight: '600'}}>Forum Diskusi Dengan Pengajar Kelas {user.kelas?.nama_kelas}</h3>
       </div>
       <div style={style.card}>
         <div style={{display: 'flex', flexDirection: 'column'}}>
@@ -169,4 +164,4 @@ const ForumDiscussion = () => {
   )
 }
 
-export default ForumDiscussion
+export default ForumPengajar

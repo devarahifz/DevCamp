@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const SideNavbar = () => {
   const dispatch = useDispatch()
   const { kelas } = useSelector((state) => state.kelas)
+  const { user } = useSelector((state) => state.user)
   const idUser = localStorage.getItem('idUser')
 
   useEffect(() => {
@@ -69,7 +70,9 @@ const SideNavbar = () => {
           // if ((kelas.peserta.includes(parseInt(idUser))) )
           return (
             <>
-            <NavLink to={`/peserta/forum-diskusi/${kelas.nama_kelas}`} style={menu}><BsFillChatDotsFill style={icon} />Forum Diskusi</NavLink >
+            <div style={font}><BsFillChatDotsFill style={icon} />Forum Diskusi</div >
+            {user.isPengajar != true && <NavLink to={`/peserta/forum-diskusi/${kelas.nama_kelas}`} style={submenu}>Diskusi Peserta</NavLink >}
+            <NavLink to={`/peserta/forum-diskusi-pengajar/${kelas.nama_kelas}`} style={submenu}>Diskusi Pengajar</NavLink >
             <div disabled style={font}><MdClass style={icon} />Kelas</div >
             <NavLink key={index+1} to={`/peserta/kelas/${kelas.nama_kelas}`} style={submenu} >{kelas.nama_kelas}</NavLink>
             {kelas.materi.map((materi, index) => {

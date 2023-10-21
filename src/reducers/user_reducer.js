@@ -22,7 +22,8 @@ export const getUserById = createAsyncThunk(
         "token",
         "verif_token",
         "progress",
-        "isActive"
+        "isActive",
+        "isPengajar"
       ]
     })
     return res
