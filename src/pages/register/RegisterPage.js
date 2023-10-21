@@ -56,7 +56,7 @@ const RegisterPage = () => {
     e.preventDefault()
 
     if (nama_lengkap === '' || email === '' || kata_sandi === '' || confirm_kata_sandi === '' || kelasUser === '') {
-      alert('Please fill all the form')
+      // alert('Please fill all the form')
       return
     }
     else if (kata_sandi !== confirm_kata_sandi) {
@@ -135,6 +135,7 @@ const RegisterPage = () => {
                   value={nama_lengkap}
                   onChange={(e) => handleChange(e, setNama)}
                   placeholder="Masukkan nama lengkap" 
+                  required
                 />
               </Form.Group>
 
@@ -150,6 +151,7 @@ const RegisterPage = () => {
                         value={kelas.id}
                         name="kelas"
                         id={`formHorizontalRadios${index+1}`}
+                        required
                       />
                     )}
                 </Form.Group>
@@ -163,6 +165,7 @@ const RegisterPage = () => {
                   value={email}
                   onChange={(e) => handleChange(e, setEmail)}
                   placeholder="Masukkan email" 
+                  required
                 />
               </Form.Group>
 
@@ -175,10 +178,14 @@ const RegisterPage = () => {
                   value={kata_sandi}
                   onChange={(e) => handleChange(e, setKata_sandi)}
                   placeholder="Masukkan password" 
+                  minLength='6'
+                  pattern='(?=.*\d)(?=.*[a-z]).{6,}'
+                  required
                 />
-                <span style={{right: '20px', top: '55%', color: 'grey'}} className='position-absolute' onClick={handleShowPassword}>
+                <span style={{right: '20px', top: '40%', color: 'grey'}} className='position-absolute' onClick={handleShowPassword}>
                   <AiFillEyeInvisible/>
                 </span>
+                <small className='text-muted'>Gunakan minimal 6 karakter dengan kombinasi huruf dan angka</small>
               </Form.Group>
               
               <Form.Group className="mb-3 position-relative" controlId="formBasicPassword">
@@ -190,10 +197,14 @@ const RegisterPage = () => {
                   value={confirm_kata_sandi}
                   onChange={(e) => handleChange(e, setConfirm)}
                   placeholder="Masukkan password" 
+                  minLength='6'
+                  pattern='(?=.*\d)(?=.*[a-z]).{6,}'
+                  required
                 />
-                <span style={{right: '20px', top: '55%', color: 'grey'}} className='position-absolute' onClick={handleShowPassword}>
+                <span style={{right: '20px', top: '40%', color: 'grey'}} className='position-absolute' onClick={handleShowPassword}>
                   <AiFillEyeInvisible/>
                 </span>
+                <small className='text-muted'>Gunakan minimal 6 karakter dengan kombinasi huruf dan angka</small>
               </Form.Group>
 
     

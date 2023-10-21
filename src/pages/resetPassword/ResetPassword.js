@@ -208,10 +208,14 @@ const ResetPassword = () => {
                 // errorMessage={errorPassword}
                 placeholder="Masukkan password" 
                 style={input}
+                minLength='6'
+                pattern='(?=.*\d)(?=.*[a-z]).{6,}'
+                required
               />
-              <span style={{right: '20px', top: '55%', color: 'grey'}} className='position-absolute' onClick={handleShowPassword}>
+              <span style={{right: '20px', top: '40%', color: 'grey'}} className='position-absolute' onClick={handleShowPassword}>
                 <AiFillEyeInvisible/>
               </span>
+              <small style={{color: 'white'}}>Gunakan minimal 6 karakter dengan kombinasi huruf dan angka</small>
             </Form.Group>
             
             <Form.Group className="mb-3 text-start position-relative" controlId="formBasicPassword">
@@ -225,16 +229,20 @@ const ResetPassword = () => {
                 // errorMessage={errorConfirm}
                 placeholder="Masukkan password" 
                 style={input}
+                minLength='6'
+                pattern='(?=.*\d)(?=.*[a-z]).{6,}'
+                required
               />
-              <span style={{right: '20px', top: '55%', color: 'grey'}} className='position-absolute' onClick={handleShowConfirmPassword}>
+              <span style={{right: '20px', top: '40%', color: 'grey'}} className='position-absolute' onClick={handleShowConfirmPassword}>
                 <AiFillEyeInvisible/>
               </span>
+              <small style={{color: 'white'}}>Gunakan minimal 6 karakter dengan kombinasi huruf dan angka</small>
             </Form.Group>
             <Button 
               type="submit"
               // onClick={() => setShow(true)}
-              style={{background: '#1E266D', fontWeight: '500', margin: '3rem 0'}}
-              className='my-3 w-100'
+              style={{background: '#1E266D', fontWeight: '500'}}
+              className='my-3 w-100 py-3'
             >
               SUBMIT
             </Button>
