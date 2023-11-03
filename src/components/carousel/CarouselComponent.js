@@ -1,51 +1,35 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Carousel, Container } from 'react-bootstrap'
+import { useSelector, useDispatch } from 'react-redux'
+import { getCarousel, getGambar } from '../../reducers/konten/carousel_reducer'
 
-const CarouselComponent = (props) => {
-  const { image } = props
+const CarouselComponent = () => {
+  const dispatch = useDispatch()
+  const { carousel } = useSelector(state => state.carousel)
+
+  useEffect(() => {
+    dispatch(getCarousel())
+  }, [dispatch])
 
   return (
     // <div style={{background: '#F4F4F5', padding: '3% 0'}}>
     <Container style={{width: '60%'}}>
       <Carousel >
-        <Carousel.Item interval={1000}>
-          <img
-            className="d-block w-100"
-            src={image}
-            alt="First slide"
-            style={{borderRadius: '30px'}}
-            />
-          <Carousel.Caption>
-            <h3>First slide label</h3>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item interval={500}>
-          <img
-            className="d-block w-100"
-            src={image}
-            alt="Second slide"
-            style={{borderRadius: '30px'}}
-            />
-          <Carousel.Caption>
-            <h3>Second slide label</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={image}
-            alt="Third slide"
-            style={{borderRadius: '30px'}}
-            />
-          <Carousel.Caption>
-            <h3>Third slide label</h3>
-            <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-            </p>
-          </Carousel.Caption>
-        </Carousel.Item>
+        {carousel.map((item, index) => (
+          <Carousel.Item interval={1000} key={index}>
+            <img
+              className="d-block w-100"
+              src={getGambar(item.gambar)}
+              alt="First slide"
+              style={{borderRadius: '30px'}}
+              height={700}
+              />
+            <Carousel.Caption>
+              <h3>{item.judul}</h3>
+              <p>{item.deskripsi}</p>
+            </Carousel.Caption>
+          </Carousel.Item>
+        ))}
       </Carousel>
     </Container>
     // </div>

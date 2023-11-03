@@ -34,7 +34,7 @@ function NavbarLanding() {
                         </Button>
                     </Link>
                     <Link to="/register">
-                        <Button className='py-2 px-4 ms-3' variant='light' style={{fontWeight: '500'}}>
+                        <Button className='py-2 px-4 ms-3' variant='light' style={{fontWeight: '500', color: '#0D6EFD'}}>
                             DAFTAR
                         </Button>
                     </Link>
