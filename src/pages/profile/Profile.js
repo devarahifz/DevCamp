@@ -89,6 +89,11 @@ const Profile = () => {
   const onSubmit = async (e) => {
       e.preventDefault()
 
+      // const dateCreated = new Date(user.date_created)
+      // dateCreated.setDate(dateCreated.getDate() + 30);
+
+      // const dateActive = dateCreated.toISOString()
+
       const form = new FormData()
       form.append("id", idUser)
       form.append("nama_lengkap", formData.nama_lengkap)
@@ -102,6 +107,17 @@ const Profile = () => {
       form.append("domisili", formData.domisili)
       
       await dispatch(updateUser(form))
+      
+      // await fetch(`${url}/items/user/${idUser}`, {
+      //   method: 'PATCH',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     date_active: dateActive
+      //   })
+      // })
+
       alert('Data berhasil diubah')
   }
 

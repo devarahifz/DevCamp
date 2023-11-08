@@ -23,7 +23,10 @@ export const getUserById = createAsyncThunk(
         "verif_token",
         "progress",
         "isActive",
-        "isPengajar"
+        "isPengajar",
+        "date_created",
+        "date_active",
+        "tugas_peserta"
       ]
     })
     return res
@@ -38,7 +41,9 @@ export const getUserByEmail = createAsyncThunk(
         "id",
         "email",
         "verif_token",
-        "isActive"
+        "isActive",
+        "date_created",
+        "date_active"
       ],
       filter: {
         email: {
@@ -106,7 +111,10 @@ export const verifyEmail = createAsyncThunk(
       fields: [
         "id",
         "email",
-        "verif_token"
+        "verif_token",
+        "isActive",
+        "date_created",
+        "date_active"
       ],
       filter: {
         verif_token: {
@@ -116,7 +124,8 @@ export const verifyEmail = createAsyncThunk(
     })
 
     await directus.items("user").updateOne(res.data[0].id, {
-      isActive: true
+      isActive: true,
+      // date_active: date
     })
 
     return res.data

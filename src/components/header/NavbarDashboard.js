@@ -9,6 +9,7 @@ import { getFoto, getUserById } from '../../reducers/user_reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
+import { directus } from '../../configs/public_url';
 
 function NavbarDashboard() {
     const background = {
@@ -45,7 +46,7 @@ function NavbarDashboard() {
     useEffect(() => {
         (async () => {
             const data = await dispatch(getUserById(idUser))
-            
+
             if (data.payload.isActive == false) {
                 alert('Email belum diverifikasi')
                 setTimeout(() => {
@@ -54,6 +55,26 @@ function NavbarDashboard() {
             }
             else if (data.payload.token != token && data.payload.email != email) {
                 handleLogout()
+            }
+            else if (data.payload.isActive == true && data.payload.date_active == null && data.payload.isPengajar == false) {
+                const dateCreated = new Date(data.payload.date_created)
+                dateCreated.setDate(dateCreated.getDate() + 30)
+                const date = dateCreated.toISOString()
+                await directus.items('user').updateOne(idUser, {
+                    date_active: date
+                })
+                console.log('date active', data.payload.date_active)
+                console.log('date active', date)
+            }
+            else if (data.payload.isActive == true && data.payload.date_active == null && data.payload.isPengajar == true) {
+                const dateCreated = new Date(data.payload.date_created)
+                dateCreated.setFullYear(9999)
+                const date = dateCreated.toISOString()
+                await directus.items('user').updateOne(idUser, {
+                    date_active: date
+                })
+                console.log('date active', data.payload.date_active)
+                console.log('date active', date)
             }
             else if (
                     data.payload.foto == null || 
@@ -66,6 +87,22 @@ function NavbarDashboard() {
                     data.payload.domisili == null) {
                 alert('Silahkan lengkapi data diri anda terlebih dahulu')
                 navigate(`/profile/${data.payload.nama_lengkap}`)
+            }
+            else if ( data.payload.date_active != null && new Date(data.payload.date_active) < new Date() ) {
+                alert('Masa aktif anda sudah habis')
+                await directus.items('user').updateOne(idUser, {
+                    isActive: false
+                })
+                handleLogout()
+            }
+            else if (data.payload.progress == '100%') {
+                const dateCreated = new Date(data.payload.date_created)
+                dateCreated.setFullYear(9999)
+                const date = dateCreated.toISOString()
+                await directus.items('user').updateOne(idUser, {
+                    date_active: date
+                })
+                console.log('date active', data.payload.date_active)
             }
         })()
     }, [])
@@ -136,7 +173,7 @@ function NavbarDashboard() {
                                 <p style={{margin: 0}}><b>Selamat Datang</b>, {user?.nama_lengkap}</p>
                                 <p style={{color: 'grey', fontSize: '12px'}}>Peserta</p>
                                 <Divider variant="middle" />
-                                <Button href={`/profile/${user.nama_lengkap}`} variant='outline-warning' style={{width: '100%', textAlign: 'left', border: 'none', marginBottom: 15}}><SettingsOutlinedIcon /> Account Settings</Button>
+                                <Button href={`/profile/${user.nama_lengkap}`} variant='outline-warning' style={{width: '100%', textAlign: 'left', border: 'none', marginBottom: 15}}><SettingsOutlinedIcon /> Edit Profile</Button>
                                 <Button onClick={handleLogout} variant='outline-danger' style={{width: '100%', textAlign: 'left', border: 'none', marginBottom: 15}}><LogoutIcon /> Logout</Button>
                             </Box>
                         </Fade>

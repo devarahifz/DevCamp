@@ -85,23 +85,22 @@ const LoginPage = () => {
 
   const onLogin = async (e) => {
     e.preventDefault()
+    const data = await dispatch(login({ email, kata_sandi }))
 
     if (email === '' || kata_sandi === '') {
-      alert('Please fill all the form')
-      return
+      alert('Email atau password salah')
     }
-    else {
-      const data = await dispatch(login({ email, kata_sandi }))
-  
-      if (data.payload.verify === true) {
-        localStorage.setItem('token', data.payload.token)
-        localStorage.setItem('idUser', data.payload.id)
-        // localStorage.setItem('email', email)
-        navigate('/peserta/dashboard')
-      } else {
-        alert('Email atau password salah')
-      }
-    }
+    else if (data.error) {
+      alert('Email atau password salah')
+    } 
+    else if (data.payload.verify === true) {
+      localStorage.setItem('token', data.payload.token)
+      localStorage.setItem('idUser', data.payload.id)
+      // localStorage.setItem('email', email)
+      navigate('/peserta/dashboard')
+    } 
+    
+    console.log(data)
   }
 
   const handleShowPassword = () => {

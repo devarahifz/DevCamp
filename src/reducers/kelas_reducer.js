@@ -26,6 +26,7 @@ export const getKelasByUser = createAsyncThunk(
         "materi.materi_id.isi_materi",
         "materi.materi_id.id",
         "materi.materi_id.status",
+        "materi.materi_id.tugas_peserta.*"
       ],
       filter: {
         "peserta": {

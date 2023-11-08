@@ -22,7 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route path="/verify-email/:name" element={<VerifyEmail />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/profile/:name" element={<Profile />} />

@@ -32,6 +32,7 @@ const Content = () => {
   const [file, setFile] = useState([])
   const [nilai, setNilai] = useState([])
   const navigate = useNavigate()
+  const [isFileUploaded, setIsFileUploaded] = useState(false)
 
   const [formData, setFormData] = useState({
     file: null,
@@ -165,6 +166,7 @@ const Content = () => {
       ...prevState,
       [e.target.name]: e.target.files[0],
     }))
+    setIsFileUploaded(true)
   }
 
   const onChangeLink = (e) => {
@@ -213,6 +215,7 @@ const Content = () => {
 
     setFile(file.filter((item) => item.id !== id))
     handleCloseDelete()
+    navigate(`/peserta/kelas/${kelas[0].nama_kelas}`)
   }
 
   const [showDelete, setShowDelete] = useState(false);
@@ -258,6 +261,7 @@ const Content = () => {
                           disabled={file.length > 0 ? true : false}
                           onChange={onChangeLink}
                           value={formDataLink.link}
+                          required={isFileUploaded == false ? true : false}
                         />
                       </Form.Group>
                     </div>

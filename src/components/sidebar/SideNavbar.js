@@ -5,16 +5,19 @@ import { MdClass } from 'react-icons/md'
 import { BsFillChatDotsFill } from 'react-icons/bs'
 import { getKelasByUser } from '../../reducers/kelas_reducer';
 import { useDispatch, useSelector } from 'react-redux';
+import { getTugas } from '../../reducers/tugas_reducer'
 
 const SideNavbar = () => {
   const dispatch = useDispatch()
   const { kelas } = useSelector((state) => state.kelas)
   const { user } = useSelector((state) => state.user)
+  const { tugas } = useSelector((state) => state.tugas)
   const idUser = localStorage.getItem('idUser')
 
   useEffect(() => {
     (async () => {
       await dispatch(getKelasByUser(idUser))
+      await dispatch(getTugas(idUser))
     })()
   }, [])
 
@@ -66,7 +69,7 @@ const SideNavbar = () => {
         <NavLink to="/peserta/dashboard" style={menu}><MdSpaceDashboard style={icon} />Dashboard</NavLink>
         <hr/>
         {kelas.map((kelas, index) => {
-          if ((kelas.peserta.includes(idUser)) )
+          if ((kelas.peserta.includes(idUser)) ) {
           // if ((kelas.peserta.includes(parseInt(idUser))) )
           return (
             <>
@@ -76,14 +79,23 @@ const SideNavbar = () => {
             <div disabled style={font}><MdClass style={icon} />Kelas</div >
             <NavLink key={index+1} to={`/peserta/kelas/${kelas.nama_kelas}`} style={submenu} >{kelas.nama_kelas}</NavLink>
             {kelas.materi.map((materi, index) => {
+              const nextMateri = kelas.materi[user.tugas_peserta?.length]
               if (materi.materi_id.status == true) {
-                return (
-                  <NavLink key={index+1} to={`/peserta/materi/${materi.materi_id.id}`} style={submenu} >Materi Ke - {index+1}</NavLink>
-                )
+                if (tugas.filter((tugas) => tugas.materi == materi.materi_id.id).length != 0) {
+                  return (
+                    <NavLink key={index+1} to={`/peserta/materi/${materi.materi_id.id}`} style={submenu} >Materi Ke - {index+1}</NavLink>
+                  )
+                }
+                else if (nextMateri?.materi_id.id == materi.materi_id.id) {
+                  return (
+                    <NavLink key={index+1} to={`/peserta/materi/${materi.materi_id.id}`} style={submenu} >Materi Ke - {index+1}</NavLink>
+                  )
+                }
               }
             })}
             </>
           )
+          }
         })}
       </div>
     </>

@@ -114,7 +114,19 @@ const Kelas = () => {
               </h5>
               <ProgressBar now={progressBar} label={`${progressRes.current.innerText}`} style={style.progress} variant='success' striped animated />
               {kelas.materi.map((materi, index) => {
+                const nextMateri = kelas.materi[user.tugas_peserta?.length]
                 if (materi.materi_id.status == true) {
+                  const handleDisable = () => {
+                    if (tugas.filter((tugas) => tugas.materi == materi.materi_id.id).length != 0) {
+                      return false
+                    }
+                    else if (nextMateri?.materi_id.id == materi.materi_id.id) {
+                      return false
+                    }
+                    else {
+                      return true
+                    }
+                  }
                   return (
                     <div key={index}>
                       <Overview 
@@ -122,6 +134,7 @@ const Kelas = () => {
                         title={materi.materi_id.judul_materi}
                         content={materi.materi_id.isi_materi}
                         tugas={tugas.filter((tugas) => tugas.materi == materi.materi_id.id)}
+                        disable={handleDisable()}
                       />
                     </div>
                   )

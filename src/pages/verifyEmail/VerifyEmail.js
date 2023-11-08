@@ -4,7 +4,7 @@ import logo from '../../assets/images/devcamp-1.png'
 import { useDispatch } from 'react-redux'
 import { getUserByEmail, verifyEmail } from '../../reducers/user_reducer'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const VerifyEmail = () => {
   const card = {
@@ -27,10 +27,10 @@ const VerifyEmail = () => {
   const { user, isLoading } = useSelector((state) => state.user)
   const [email, setEmail] = useState('')
   const [token, setToken] = useState('')
-  const emailUser = localStorage.getItem('email')
-
+  let { name } = useParams()
+  
   useEffect(() => {
-    dispatch(getUserByEmail(emailUser))
+    dispatch(getUserByEmail(name))
   }, [])
 
   const onChange = (e, set) => {
@@ -49,7 +49,7 @@ const VerifyEmail = () => {
 
     const data = {
       email,
-      token
+      token,
     }
     
     if (data.token != user.data[0].verif_token || data.email != user.data[0].email) {
@@ -60,6 +60,10 @@ const VerifyEmail = () => {
       alert('Email berhasil diverifikasi')
       localStorage.removeItem('token')
       localStorage.removeItem('email')
+      navigate('/login')
+    }
+    else if (user.data[0].isActive == true) {
+      alert('Email sudah diverifikasi')
       navigate('/login')
     }
   }
