@@ -93,14 +93,15 @@ const LoginPage = () => {
     else if (data.error) {
       alert('Email atau password salah')
     } 
+    else if (data.payload.verify === false) {
+      alert('Email atau password salah')
+    }
     else if (data.payload.verify === true) {
       localStorage.setItem('token', data.payload.token)
       localStorage.setItem('idUser', data.payload.id)
       // localStorage.setItem('email', email)
       navigate('/peserta/dashboard')
     } 
-    
-    console.log(data)
   }
 
   const handleShowPassword = () => {

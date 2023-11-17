@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getUserById, register, login, updateUser, updatePassword, verifyEmail, getUserByEmail } from '../reducers/user_reducer'
+import { getUserById, register, login, updateUser, updatePassword, verifyEmail, getUserByEmail, getUser } from '../reducers/user_reducer'
 
 const UserSlicer = createSlice({
   name: 'user',
@@ -105,6 +105,20 @@ const UserSlicer = createSlice({
       state.user = action.payload
     })
     builder.addCase(getUserByEmail.rejected, (state, action) => {
+      state.isLoading = false
+      state.isError = action.error.message
+    })
+    builder.addCase(getUser.pending, (state) => {
+      state.isLoading = true
+      state.isError = null
+      state.isSuccess = false
+    })
+    builder.addCase(getUser.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.isSuccess = true
+      state.user = action.payload
+    })
+    builder.addCase(getUser.rejected, (state, action) => {
       state.isLoading = false
       state.isError = action.error.message
     })

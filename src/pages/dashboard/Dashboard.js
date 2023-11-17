@@ -1,5 +1,5 @@
 import React, { useEffect} from 'react'
-import { Button, Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material'
+import { Button, Card, CardActionArea, CardContent, CardMedia, Typography, Alert } from '@mui/material'
 import { Row, Col } from 'react-bootstrap'
 import { fetchKelas, getAssetURL } from '../../reducers/kelas_reducer'
 import { useDispatch, useSelector } from 'react-redux'
@@ -24,12 +24,21 @@ const Dashboard = () => {
       height: 'auto',
     },
   }
-  console.log('Dashboard', kelas)
+
   return (
     <> 
       <div className='d-flex justify-content-between' style={style.card}>
-        <h3 style={{margin: 0, fontWeight: '600'}}>Hello, {user.nama_lengkap} !</h3>
-        <p className='m-0 align-self-center'>Aktif sampai {new Date(user.date_active).toLocaleString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}</p>
+        <h3 style={{margin: 0, fontWeight: '600', alignSelf: 'center'}}>Hello, {user.nama_lengkap} !</h3>
+        {
+          new Date(user.date_active).getFullYear() == 9999 ?
+          <Alert severity="success">
+            Aktif Selamanya
+          </Alert>    
+          : 
+          <Alert severity='info'>
+            Aktif Sampai {new Date(user.date_active).toLocaleString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
+          </Alert>
+        }
       </div>
       <Row>
         {kelas.map((kelas, index) => (

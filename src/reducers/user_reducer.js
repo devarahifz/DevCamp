@@ -33,8 +33,26 @@ export const getUserById = createAsyncThunk(
   }
 )
 
-export const getUserByEmail = createAsyncThunk(
+export const getUser = createAsyncThunk(
   "user/getUser",
+  async (idKelas) => {
+    const res = await directus.items("user").readByQuery({
+      fields: [
+        "*",
+        "kelas.*",
+      ],
+      filter: {
+        kelas: {
+          _eq: idKelas
+        }
+      }
+    })
+    return res
+  }
+)
+
+export const getUserByEmail = createAsyncThunk(
+  "user/getUserByEmail",
   async (email) => {
     const res = await directus.items("user").readByQuery({
       fields: [
@@ -43,12 +61,13 @@ export const getUserByEmail = createAsyncThunk(
         "verif_token",
         "isActive",
         "date_created",
-        "date_active"
+        "date_active",
       ],
       filter: {
         email: {
           _eq: email
         }
+
       }
     })
     return res

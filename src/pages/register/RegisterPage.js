@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Col, Container, Row, Form, Button, Modal } from 'react-bootstrap'
 import { fetchKelas } from '../../reducers/kelas_reducer'
-import { getUserByEmail, register } from '../../reducers/user_reducer'
+import { getUser, getUserByEmail, register } from '../../reducers/user_reducer'
 import { useNavigate } from 'react-router-dom'
 import NavbarLanding from '../../components/header/NavbarLanding'
 import { AiFillEyeInvisible } from 'react-icons/ai'
@@ -65,9 +65,14 @@ const RegisterPage = () => {
     }
     else {
       const user = await dispatch(getUserByEmail(email))
+      const res = await dispatch(getUser(kelasUser))
 
       if (user.payload.data.length > 0) {
         alert('Email already exist')
+        return
+      }
+      else if (res.payload.data.length > 30) {
+        alert('Kelas sudah penuh')
         return
       }
       else {
