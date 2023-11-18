@@ -47,7 +47,10 @@ function NavbarDashboard() {
         (async () => {
             const data = await dispatch(getUserById(idUser))
 
-            if (data.payload.isActive == false) {
+            if (data.error) {
+                handleLogout()
+            }
+            else if (data.payload.isActive == false) {
                 alert('Email belum diverifikasi')
                 setTimeout(() => {
                     handleLogout()
