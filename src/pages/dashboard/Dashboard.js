@@ -43,7 +43,7 @@ const Dashboard = () => {
       <Row>
         {kelas.map((kelas, index) => (
         <Col xs={4} key={index} style={{padding: 0}}>
-          <Card sx={{ minWidth: 480, margin: '1rem', borderRadius: 3 }} >
+          <Card sx={{ minWidth: 320, margin: '1rem', borderRadius: 3 }} >
             {/* <CardActionArea href={`/peserta/kelas/${kelas.nama_kelas}`} disabled={!(kelas.peserta.includes(parseInt(idUser))) }> */}
               <CardActionArea href={`/peserta/kelas/${kelas.nama_kelas}`} disabled={!(kelas.peserta.includes(idUser)) }>
                 <CardMedia

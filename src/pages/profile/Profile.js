@@ -117,8 +117,13 @@ const Profile = () => {
       //     date_active: dateActive
       //   })
       // })
+      if (user.foto == null) {
+        alert('Silahkan upload foto profil terlebih dahulu')
+      }
+      else {
+        alert('Data berhasil diubah')
+      }
 
-      alert('Data berhasil diubah')
   }
 
   const onSubmitPassword = (e) => {

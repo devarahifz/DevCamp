@@ -55,7 +55,7 @@ const SideNavbar = () => {
     marginLeft: '0.5rem',
     marginRight: '0.5rem',
     width: '13%',
-    height: '90vh',
+    height: '85vh',
     top: 100,
   }
 
