@@ -8,14 +8,6 @@ import { Col, Row } from 'react-bootstrap';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const Overview = ({title, content, id, tugas, disable}) => {
-  const handleDisable = () => {
-    // if (tugas.length == 0) {
-    //   return true
-    // }
-    // else {
-    //   return false
-    // }
-  }
   return (
     <>
       <Card sx={{ maxHeight: 200, marginY: 2, borderRadius: 3 }}>
@@ -41,8 +33,6 @@ const Overview = ({title, content, id, tugas, disable}) => {
                     <CheckCircleIcon sx={{color: 'white', fontSize: 40, marginTop: 0, border: '1px solid #96be25', borderRadius: 100}} />
                     :
                     (() => {
-                      // setIsMateriAssigned(true);
-                      // setIsPrevMateriAssigned(true);
                       return <CheckCircleIcon sx={{color: '#96be25', fontSize: 40, marginTop: 0, border: '1px solid #96be25', borderRadius: 100}} />
                     })()
                   }

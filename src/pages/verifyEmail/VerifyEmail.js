@@ -98,7 +98,7 @@ const VerifyEmail = () => {
           </Form.Group>
 
           <Button type='submit' className='py-3 w-100' style={{background: '#1E266D', fontWeight: '500', margin: '3rem 0'}}>
-            {isLoading === true ? <Spinner animation="border" variant="light" /> : 'MASUK'}
+            {isLoading === true ? <Spinner animation="border" variant="light" /> : 'SUBMIT'}
           </Button>
           
         </Form>

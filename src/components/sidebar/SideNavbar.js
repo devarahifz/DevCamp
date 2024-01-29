@@ -80,6 +80,7 @@ const SideNavbar = () => {
             <NavLink key={index+1} to={`/peserta/kelas/${kelas.nama_kelas}`} style={submenu} >{kelas.nama_kelas}</NavLink>
             {kelas.materi.map((materi, index) => {
               const nextMateri = kelas.materi[user.tugas_peserta?.length]
+              const prevMateri = kelas.materi[user.tugas_peserta?.length - 1]
               if (materi.materi_id.status == true) {
                 if (tugas.filter((tugas) => tugas.materi == materi.materi_id.id).length != 0) {
                   return (
@@ -87,6 +88,11 @@ const SideNavbar = () => {
                   )
                 }
                 else if (nextMateri?.materi_id.id == materi.materi_id.id) {
+                  return (
+                    <NavLink key={index+1} to={`/peserta/materi/${materi.materi_id.id}`} style={submenu} >Materi Ke - {index+1}</NavLink>
+                  )
+                }
+                else if (prevMateri?.materi_id.id == materi.materi_id.id) {
                   return (
                     <NavLink key={index+1} to={`/peserta/materi/${materi.materi_id.id}`} style={submenu} >Materi Ke - {index+1}</NavLink>
                   )

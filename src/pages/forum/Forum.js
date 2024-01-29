@@ -23,7 +23,7 @@ const ForumDiscussion = () => {
 
       intervalRef.current = setInterval(() => {
         connectionRef.current.send(JSON.stringify({ type: 'ping' }));
-      }, 30000); // Sends a ping every 30 seconds
+      }, 30000);
 
       return () => {
         clearInterval(intervalRef.current);

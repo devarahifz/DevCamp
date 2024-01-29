@@ -54,9 +54,6 @@ const Kelas = () => {
       let total = 0
       let totalMateri = 0
       let totalTugas = tugas.filter((tugas) => tugas.idUser == idUser).length
-      let totalNilai = 0
-      let totalNilaiHarian = 0
-      let totalNilaiAkhir = 0
 
       kelas.map((kelas) => {
         kelas.materi.map((materi) => {
@@ -115,12 +112,16 @@ const Kelas = () => {
               <ProgressBar now={progressBar} label={`${progressRes.current.innerText}`} style={style.progress} variant='success' striped animated />
               {kelas.materi.map((materi, index) => {
                 const nextMateri = kelas.materi[user.tugas_peserta?.length]
+                const prevMateri = kelas.materi[user.tugas_peserta?.length - 1]
                 if (materi.materi_id.status == true) {
                   const handleDisable = () => {
                     if (tugas.filter((tugas) => tugas.materi == materi.materi_id.id).length != 0) {
                       return false
                     }
                     else if (nextMateri?.materi_id.id == materi.materi_id.id) {
+                      return false
+                    }
+                    else if (prevMateri?.materi_id.id == materi.materi_id.id) {
                       return false
                     }
                     else {
